@@ -12,7 +12,3 @@ st.write("Selected Values:")
 st.write("Temperature:", temp)
 st.write("Humidity:", humidity)
 st.write("Rainfall:", rainfall)
-if st.button("Predict Crop"):
-    st.success("Prediction will be shown here")
-
-    st.markdown("### Results Section")
