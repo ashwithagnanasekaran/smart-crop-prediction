@@ -23,3 +23,8 @@ st.set_page_config(page_title="Smart Crop Prediction", layout="wide")
 st.title("🌱 Smart Crop Prediction System")
 
 st.sidebar.header("Enter Soil Details")
+
+nitrogen = st.sidebar.number_input("Nitrogen (N)", min_value=0, value=50)
+phosphorus = st.sidebar.number_input("Phosphorus (P)", min_value=0, value=50)
+potassium = st.sidebar.number_input("Potassium (K)", min_value=0, value=50)
+ph = st.sidebar.slider("Soil pH", 0.0, 14.0, 6.5)
