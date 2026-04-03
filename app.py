@@ -18,3 +18,8 @@ if st.button("Predict Crop"):
 
 st.markdown("### Results Section")
 
+st.set_page_config(page_title="Smart Crop Prediction", layout="wide")
+
+st.title("🌱 Smart Crop Prediction System")
+
+st.sidebar.header("Enter Soil Details")
