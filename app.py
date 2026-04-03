@@ -41,3 +41,7 @@ st.subheader("📊 SHAP Explanation")
 fig, ax = plt.subplots()
 shap.plots.bar(shap_values[0], show=False)
 st.pyplot(fig)
+
+if st.button("Predict Crop"):
+    prediction = model.predict([input_data])
+    st.success(f"🌾 Predicted Crop: {prediction[0]}")
