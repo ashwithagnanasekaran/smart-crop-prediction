@@ -28,3 +28,16 @@ nitrogen = st.sidebar.number_input("Nitrogen (N)", min_value=0, value=50)
 phosphorus = st.sidebar.number_input("Phosphorus (P)", min_value=0, value=50)
 potassium = st.sidebar.number_input("Potassium (K)", min_value=0, value=50)
 ph = st.sidebar.slider("Soil pH", 0.0, 14.0, 6.5)
+
+import shap
+import matplotlib.pyplot as plt
+
+input_data = [nitrogen, phosphorus, potassium, ph]
+
+explainer = shap.Explainer(model)
+shap_values = explainer([input_data])
+
+st.subheader("📊 SHAP Explanation")
+fig, ax = plt.subplots()
+shap.plots.bar(shap_values[0], show=False)
+st.pyplot(fig)
