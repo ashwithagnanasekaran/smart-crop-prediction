@@ -75,3 +75,6 @@ with col2:
 with st.spinner("Predicting crop..."):
     prediction = model.predict([input_data])
 st.success(f"🌾 Predicted Crop: {prediction[0]}")
+
+st.markdown("### Recommendation")
+st.info(f"The system suggests **{prediction[0]}** based on the current soil values.")
