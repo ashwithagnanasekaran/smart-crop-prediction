@@ -99,3 +99,15 @@ def train_model():
     model.fit(X_train, y_train)
 
     return model
+from sklearn.metrics import accuracy_score
+
+def evaluate_model(model, X_test, y_test):
+    predictions = model.predict(X_test)
+    acc = accuracy_score(y_test, predictions)
+    print("Accuracy:", acc)
+    return acc
+import joblib
+
+def save_model(model):
+    joblib.dump(model, "crop_model.pkl")
+    print("Model saved successfully")
