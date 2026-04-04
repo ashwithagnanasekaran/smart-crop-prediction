@@ -106,3 +106,8 @@ def evaluate_model(model, X_test, y_test):
     acc = accuracy_score(y_test, predictions)
     print("Accuracy:", acc)
     return acc
+import joblib
+
+def save_model(model):
+    joblib.dump(model, "crop_model.pkl")
+    print("Model saved successfully")
