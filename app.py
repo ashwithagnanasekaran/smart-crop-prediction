@@ -45,3 +45,14 @@ st.pyplot(fig)
 if st.button("Predict Crop"):
     prediction = model.predict([input_data])
     st.success(f"🌾 Predicted Crop: {prediction[0]}")
+
+st.markdown("### Selected Input Summary")
+st.write({
+    "Temperature": temp,
+    "Humidity": humidity,
+    "Rainfall": rainfall,
+    "Nitrogen": nitrogen,
+    "Phosphorus": phosphorus,
+    "Potassium": potassium,
+    "pH": ph
+})
