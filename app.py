@@ -78,3 +78,5 @@ st.success(f"🌾 Predicted Crop: {prediction[0]}")
 
 st.markdown("### Recommendation")
 st.info(f"The system suggests **{prediction[0]}** based on the current soil values.")
+
+st.caption("This chart shows which soil features contributed more to the prediction.")
