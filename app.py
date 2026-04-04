@@ -56,3 +56,18 @@ st.write({
     "Potassium": potassium,
     "pH": ph
 })
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.markdown("### Weather Details")
+    st.write("Temperature:", temp)
+    st.write("Humidity:", humidity)
+    st.write("Rainfall:", rainfall)
+
+with col2:
+    st.markdown("### Soil Details")
+    st.write("Nitrogen:", nitrogen)
+    st.write("Phosphorus:", phosphorus)
+    st.write("Potassium:", potassium)
+    st.write("pH:", ph)
