@@ -111,3 +111,7 @@ import joblib
 def save_model(model):
     joblib.dump(model, "crop_model.pkl")
     print("Model saved successfully")
+    
+    def predict(model, input_data):
+    prediction = model.predict([input_data])
+    return prediction[0]
