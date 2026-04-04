@@ -71,3 +71,7 @@ with col2:
     st.write("Phosphorus:", phosphorus)
     st.write("Potassium:", potassium)
     st.write("pH:", ph)
+
+with st.spinner("Predicting crop..."):
+    prediction = model.predict([input_data])
+st.success(f"🌾 Predicted Crop: {prediction[0]}")
