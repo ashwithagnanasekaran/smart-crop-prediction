@@ -55,3 +55,5 @@ response = requests.get(url, timeout=5)
 data = response.json() if response.status_code == 200 else {}
 temperature = data.get("current_weather", {}).get("temperature", 0)
 windspeed = data.get("current_weather", {}).get("windspeed", 0)
+def get_weather(lat=11, lon=78):
+    url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current_weather=true"
