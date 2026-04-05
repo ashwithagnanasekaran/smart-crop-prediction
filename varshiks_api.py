@@ -31,3 +31,5 @@ data = response.json()
 
 print("Temperature:", data["current_weather"]["temperature"])
 print("Wind Speed:", data["current_weather"]["windspeed"])
+weather = get_weather()
+temp = weather["temperature"]
