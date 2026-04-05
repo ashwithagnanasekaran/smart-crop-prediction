@@ -61,3 +61,8 @@ def get_weather(lat=11, lon=78):
 Fetch current weather data using Open-Meteo API
 Returns temperature and windspeed
 """
+try:
+    response = requests.get(url, timeout=5)
+except Exception as e:
+    print("Error fetching weather:", e)
+    return {}
