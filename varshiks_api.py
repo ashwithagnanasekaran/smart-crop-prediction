@@ -66,3 +66,5 @@ try:
 except Exception as e:
     print("Error fetching weather:", e)
     return {}
+if "current_weather" not in data:
+    print("Weather data not available")
