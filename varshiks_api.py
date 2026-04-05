@@ -57,3 +57,7 @@ temperature = data.get("current_weather", {}).get("temperature", 0)
 windspeed = data.get("current_weather", {}).get("windspeed", 0)
 def get_weather(lat=11, lon=78):
     url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current_weather=true"
+    """
+Fetch current weather data using Open-Meteo API
+Returns temperature and windspeed
+"""
