@@ -50,3 +50,4 @@ if response.status_code != 200:
     "temperature": data["current_weather"]["temperature"],
     "windspeed": data["current_weather"]["windspeed"]
 }
+# fetch current weather data from open-meteo API
