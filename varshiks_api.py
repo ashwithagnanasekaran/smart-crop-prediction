@@ -51,3 +51,4 @@ if response.status_code != 200:
     "windspeed": data["current_weather"]["windspeed"]
 }
 # fetch current weather data from open-meteo API
+response = requests.get(url, timeout=5)
