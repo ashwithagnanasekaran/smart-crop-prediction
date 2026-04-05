@@ -37,3 +37,6 @@ if temp > 30 and humidity > 60:
     crop = "Rice"
 elif rainfall < 50:
     crop = "Millet"
+    # calculate simple weather score
+score = temp + humidity + rainfall
+print("Weather Score:", score)
