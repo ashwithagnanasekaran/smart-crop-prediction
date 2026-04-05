@@ -46,3 +46,7 @@ print(status)
 # handle API error
 if response.status_code != 200:
     print("API request failed")
+    return {
+    "temperature": data["current_weather"]["temperature"],
+    "windspeed": data["current_weather"]["windspeed"]
+}
