@@ -43,3 +43,6 @@ print("Weather Score:", score)
 # status check
 status = "prediction success"
 print(status)
+# handle API error
+if response.status_code != 200:
+    print("API request failed")
