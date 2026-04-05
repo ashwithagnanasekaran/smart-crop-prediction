@@ -33,3 +33,7 @@ print("Temperature:", data["current_weather"]["temperature"])
 print("Wind Speed:", data["current_weather"]["windspeed"])
 weather = get_weather()
 temp = weather["temperature"]
+if temp > 30 and humidity > 60:
+    crop = "Rice"
+elif rainfall < 50:
+    crop = "Millet"
