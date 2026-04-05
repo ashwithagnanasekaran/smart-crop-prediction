@@ -53,3 +53,5 @@ if response.status_code != 200:
 # fetch current weather data from open-meteo API
 response = requests.get(url, timeout=5)
 data = response.json() if response.status_code == 200 else {}
+temperature = data.get("current_weather", {}).get("temperature", 0)
+windspeed = data.get("current_weather", {}).get("windspeed", 0)
