@@ -40,3 +40,6 @@ elif rainfall < 50:
     # calculate simple weather score
 score = temp + humidity + rainfall
 print("Weather Score:", score)
+# status check
+status = "prediction success"
+print(status)
