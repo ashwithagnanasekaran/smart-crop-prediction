@@ -81,3 +81,68 @@ def train_model():
     joblib.dump(model, "model.pkl")
 
     return model, le
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+
+def train_model():
+    data = pd.read_csv("data.csv")
+
+    X = data.drop("label", axis=1)
+    y = data["label"]
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42
+    )
+
+    model = RandomForestClassifier(n_estimators=100)
+    model.fit(X_train, y_train)
+
+    return model
+from sklearn.metrics import accuracy_score
+
+def evaluate_model(model, X_test, y_test):
+    predictions = model.predict(X_test)
+    acc = accuracy_score(y_test, predictions)
+    print("Accuracy:", acc)
+    return acc
+import joblib
+
+def save_model(model):
+    joblib.dump(model, "crop_model.pkl")
+    print("Model saved successfully")
+    
+    def predict(model, input_data):
+    prediction = model.predict([input_data])
+    return prediction[0]
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+
+def build_pipeline():
+    pipeline = Pipeline([
+        ("scaler", StandardScaler()),
+        ("model", RandomForestClassifier(n_estimators=100))
+    ])
+    return pipeline
+def train_model():
+    data = pd.read_csv("data.csv")
+
+    X = data.drop("Label", axis=1)
+    y = data["Label"]
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42
+    )
+
+    pipeline = build_pipeline()
+    pipeline.fit(X_train, y_train)
+
+    return pipeline, X_test, y_test
+def load_model():
+    model = joblib.load("crop_model.pkl")
+    print("Model loaded successfully")
+    return model
+def predict_crop(model, input_data):
+    input_df = pd.DataFrame([input_data])
+    prediction = model.predict(input_df)
+    return prediction[0]
