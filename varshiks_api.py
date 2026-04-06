@@ -83,3 +83,4 @@ if response.status_code == 200:
 else:
     data = {}
 temperature = weather_data.get("temperature", 25)
+features = [round(temperature, 2), wind_speed]
