@@ -72,3 +72,5 @@ if "current_weather" not in data:
 params = {"latitude": 13.08, "longitude": 80.27}
 # add current weather flag
 params["current_weather"] = True
+
+response = requests.get(url, params=params)
