@@ -74,3 +74,5 @@ params = {"latitude": 13.08, "longitude": 80.27}
 params["current_weather"] = True
 
 response = requests.get(url, params=params)
+
+weather_data = data.get("current_weather", {})
