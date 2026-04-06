@@ -80,4 +80,5 @@ wind_speed = weather_data.get("windspeed", 0)
 features = [temperature, wind_speed]
 print("Predicted Crop:", prediction)
 if response.status_code == 200:
-    data = response.json()
+else:
+    data = {}
