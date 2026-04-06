@@ -52,3 +52,28 @@ processed_df["label"] = y_encoded
 processed_df.to_csv("data/processed/crop_processed.csv", index=False)
 
 print("Preprocessing completed and saved!")
+# -----------------------
+# Feature Correlation (for analysis)
+# -----------------------
+print("Correlation:\n", df.corr(numeric_only=True))
+
+# -----------------------
+# Save Label Classes
+# -----------------------
+import joblib
+joblib.dump(le, "data/processed/label_encoder.pkl")
+
+# -----------------------
+# Save Scaler
+# -----------------------
+joblib.dump(scaler, "data/processed/scaler.pkl")
+
+# -----------------------
+# Check Final Data
+# -----------------------
+print(processed_df.head())
+
+# -----------------------
+# Class Distribution
+# -----------------------
+print("Class distribution:\n", df["label"].value_counts())
