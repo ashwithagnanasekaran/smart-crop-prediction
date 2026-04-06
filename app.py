@@ -226,3 +226,7 @@ elif page == "Result":
 
             for i, val in enumerate(input_data):
                 st.write(f"{feature_names[i]}: {val}")
+
+            if st.button("Reset Inputs"):
+            st.session_state.clear()
+            st.experimental_rerun()
