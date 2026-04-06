@@ -142,3 +142,7 @@ def load_model():
     model = joblib.load("crop_model.pkl")
     print("Model loaded successfully")
     return model
+def predict_crop(model, input_data):
+    input_df = pd.DataFrame([input_data])
+    prediction = model.predict(input_df)
+    return prediction[0]
