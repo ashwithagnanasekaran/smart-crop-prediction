@@ -138,3 +138,7 @@ def train_model():
     pipeline.fit(X_train, y_train)
 
     return pipeline, X_test, y_test
+def load_model():
+    model = joblib.load("crop_model.pkl")
+    print("Model loaded successfully")
+    return model
