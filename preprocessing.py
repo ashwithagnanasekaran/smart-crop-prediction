@@ -76,4 +76,42 @@ print(processed_df.head())
 # -----------------------
 # Class Distribution
 # -----------------------
-print("Class distribution:\n", df["label"].value_counts())
+print("Class distribution:\n", df["label"].value_counts())# -----------------------
+# Save Feature Columns
+# -----------------------
+joblib.dump(X.columns.tolist(), "data/processed/feature_columns.pkl")
+
+# -----------------------
+# Data Types Check
+# -----------------------
+print("Data types:\n", df.dtypes)
+
+# -----------------------
+# Summary Statistics
+# -----------------------
+print("Summary:\n", df.describe())
+
+# -----------------------
+# Check Unique Labels
+# -----------------------
+print("Unique crops:\n", df["label"].unique())
+
+# -----------------------
+# Final Shape
+# -----------------------
+print("Final processed shape:", processed_df.shape)
+# -----------------------
+# Check for Outliers (basic)
+# -----------------------
+print("Outliers check:\n", ((df - df.mean(numeric_only=True)).abs() > 3*df.std(numeric_only=True)).sum())
+
+# -----------------------
+# Feature Count
+# -----------------------
+print("Number of features:", X.shape[1])
+
+# -----------------------
+# Save Dataset Info
+# -----------------------
+with open("data/processed/dataset_info.txt", "w") as f:
+    f.write(str(df.describe()))
