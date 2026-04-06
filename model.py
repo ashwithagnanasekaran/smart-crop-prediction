@@ -115,3 +115,12 @@ def save_model(model):
     def predict(model, input_data):
     prediction = model.predict([input_data])
     return prediction[0]
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+
+def build_pipeline():
+    pipeline = Pipeline([
+        ("scaler", StandardScaler()),
+        ("model", RandomForestClassifier(n_estimators=100))
+    ])
+    return pipeline
