@@ -9,7 +9,9 @@ if page == "Home":
     st.subheader("Welcome to the Crop Prediction Application")
     st.write("This system helps predict suitable crops using soil and weather details.")
 
-    import streamlit as st
+if st.session_state.get("go_result"):
+    page = "Result"
+    st.session_state["go_result"] = False
 
 st.set_page_config(page_title="Smart Crop Prediction", layout="wide")
 
@@ -210,3 +212,7 @@ elif page == "Result":
             st.pyplot(fig)
 
             st.caption("This chart shows which soil features contributed more to the prediction.")
+
+            if st.button("Go to Result Page"):
+            st.session_state["go_result"] = True
+            st.experimental_rerun()
