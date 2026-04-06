@@ -82,3 +82,4 @@ print("Predicted Crop:", prediction)
 if response.status_code == 200:
 else:
     data = {}
+temperature = weather_data.get("temperature", 25)
