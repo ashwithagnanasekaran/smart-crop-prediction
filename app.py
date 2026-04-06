@@ -219,3 +219,10 @@ elif page == "Result":
 
             if any(v is None for v in input_data):
             st.error("Please enter all input values before prediction.")
+
+            st.markdown("### Feature Impact")
+
+            feature_names = ["Nitrogen", "Phosphorus", "Potassium", "pH"]
+
+            for i, val in enumerate(input_data):
+                st.write(f"{feature_names[i]}: {val}")
