@@ -216,3 +216,6 @@ elif page == "Result":
             if st.button("Go to Result Page"):
             st.session_state["go_result"] = True
             st.experimental_rerun()
+
+            if any(v is None for v in input_data):
+            st.error("Please enter all input values before prediction.")
