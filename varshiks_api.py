@@ -76,3 +76,4 @@ params["current_weather"] = True
 response = requests.get(url, params=params)
 weather_data = data.get("current_weather", {})
 temperature = weather_data.get("temperature", 0)
+wind_speed = weather_data.get("windspeed", 0)
