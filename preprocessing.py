@@ -114,4 +114,7 @@ print("Number of features:", X.shape[1])
 # Save Dataset Info
 # -----------------------
 with open("data/processed/dataset_info.txt", "w") as f:
-    f.write(str(df.describe()))
+    f.write(str(df.describe()))# -----------------------
+# Check if any null values left
+# -----------------------
+print("Remaining null values:\n", df.isnull().sum().sum())
