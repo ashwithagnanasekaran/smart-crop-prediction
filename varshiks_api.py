@@ -68,3 +68,5 @@ except Exception as e:
     return {}
 if "current_weather" not in data:
     print("Weather data not available")
+    # create params
+params = {"latitude": 13.08, "longitude": 80.27}
