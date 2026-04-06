@@ -213,6 +213,8 @@ elif page == "Result":
 
             st.caption("This chart shows which soil features contributed more to the prediction.")
 
+            st.session_state["history"].append(prediction[0])
+
             if st.button("Go to Result Page"):
             st.session_state["go_result"] = True
             st.experimental_rerun()
@@ -230,3 +232,11 @@ elif page == "Result":
             if st.button("Reset Inputs"):
             st.session_state.clear()
             st.experimental_rerun()
+
+            if "history" not in st.session_state:
+            st.session_state["history"] = []
+
+            st.markdown("### Prediction History")
+
+            for i, item in enumerate(st.session_state["history"]):
+            st.write(f"{i+1}. {item}")
