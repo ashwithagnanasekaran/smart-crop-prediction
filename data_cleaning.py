@@ -41,3 +41,4 @@ print(df.isnull().sum())
 df.to_csv("data/cleaned/crop_cleaned.csv", index=False)
 
 print("\nData cleaning completed and saved!")
+print("Dataset is now clean and ready for preprocessing")
