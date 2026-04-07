@@ -206,6 +206,9 @@ elif page == "Result":
             explainer = shap.Explainer(model)
             shap_values = explainer([input_data])
 
+            st.markdown("---")
+            st.markdown("### Explainable AI Analysis")
+
             st.subheader("📊 SHAP Explanation")
             fig, ax = plt.subplots()
             shap.plots.bar(shap_values[0], show=False)
@@ -248,3 +251,7 @@ elif page == "Result":
                 "Status": "Prediction Completed"
             })
             st.success("Use the sidebar to navigate through Home, Crop Assessment, and Result pages.")
+
+            st.info("Fill all soil and weather values carefully before moving to the Result page.")
+
+            
