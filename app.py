@@ -240,3 +240,10 @@ elif page == "Result":
 
             for i, item in enumerate(st.session_state["history"]):
             st.write(f"{i+1}. {item}")
+
+            st.markdown("### Result Summary")
+            st.write({
+                "Predicted Crop": prediction[0],
+                "Input Count": len(input_data),
+                "Status": "Prediction Completed"
+            })
