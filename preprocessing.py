@@ -118,3 +118,13 @@ with open("data/processed/dataset_info.txt", "w") as f:
 # Check if any null values left
 # -----------------------
 print("Remaining null values:\n", df.isnull().sum().sum())
+# -----------------------
+# Train-Test Split (important for ML)
+# -----------------------
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X_scaled, y_encoded, test_size=0.2, random_state=42)
+
+# -----------------------
+# Save Train/Test Data
+# -----------------------
+joblib.dump((X_train, X_test, y_train, y_test), "data/processed/train_test_split.pkl")
