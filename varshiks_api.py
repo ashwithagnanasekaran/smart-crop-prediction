@@ -85,3 +85,4 @@ else:
 temperature = weather_data.get("temperature", 25)
 features = [round(temperature, 2), wind_speed]
 crop_name = le_crop.inverse_transform(prediction)[0]
+print("API Response:", data)
