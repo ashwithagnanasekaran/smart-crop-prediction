@@ -88,3 +88,4 @@ crop_name = le_crop.inverse_transform(prediction)[0]
 print("API Response:", data)
 if not weather_data:
     print("No weather data available")
+weather_code = weather_data.get("weathercode", 0)
