@@ -89,3 +89,4 @@ print("API Response:", data)
 if not weather_data:
     print("No weather data available")
 weather_code = weather_data.get("weathercode", 0)
+rainfall = 0 if weather_code == 0 else 50
