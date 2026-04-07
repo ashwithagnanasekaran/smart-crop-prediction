@@ -254,4 +254,5 @@ elif page == "Result":
 
             st.info("Fill all soil and weather values carefully before moving to the Result page.")
 
-            
+            st.markdown("---")
+            st.caption("Smart Crop Prediction System | Streamlit UI | SHAP Explainable AI")
