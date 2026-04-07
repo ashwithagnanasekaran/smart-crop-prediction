@@ -25,3 +25,5 @@ This document describes the features used in the crop recommendation system.
 
 ## 🎯 Purpose
 This dataset is used to predict the most suitable crop based on soil nutrients and environmental conditions.
+## 📌 Additional Info
+- Dataset contains agricultural data for crop prediction.
