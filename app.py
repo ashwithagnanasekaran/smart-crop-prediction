@@ -247,3 +247,4 @@ elif page == "Result":
                 "Input Count": len(input_data),
                 "Status": "Prediction Completed"
             })
+            st.success("Use the sidebar to navigate through Home, Crop Assessment, and Result pages.")
