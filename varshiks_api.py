@@ -93,3 +93,5 @@ rainfall = 0 if weather_code == 0 else 50
 input_data = [features]
 confidence = max(p
 print("Confidence:", confidence)
+result = f"{crop_name} ({round(confidence*100,2)}%)"
+print(result)
