@@ -91,4 +91,5 @@ if not weather_data:
 weather_code = weather_data.get("weathercode", 0)
 rainfall = 0 if weather_code == 0 else 50
 input_data = [features]
-confidence = max(probs[0])
+confidence = max(p
+print("Confidence:", confidence)
