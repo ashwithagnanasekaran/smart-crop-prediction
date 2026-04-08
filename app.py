@@ -284,3 +284,5 @@ with col3:
 
     st.markdown("### Prediction Status")
     st.success("Assessment completed successfully")
+
+    st.write("Total Predictions:", len(st.session_state["history"]))
