@@ -131,6 +131,11 @@ elif page == "Result":
 
             st.markdown("### Recommendation")
             st.info(f"The system suggests **{prediction[0]}** based on the current soil values.")
+            st.markdown("### Input Checklist")
+st.checkbox("Temperature entered", value=True)
+st.checkbox("Humidity entered", value=True)
+st.checkbox("Rainfall entered", value=True)
+st.checkbox("Soil nutrients entered", value=True)
 
 import streamlit as st
 import shap
