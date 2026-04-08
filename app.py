@@ -281,3 +281,6 @@ with col3:
     st.write("Prediction, recommendation, and SHAP explanation are shown.")
 
     st.write("Prediction Time:", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+
+    st.markdown("### Prediction Status")
+    st.success("Assessment completed successfully")
