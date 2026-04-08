@@ -95,3 +95,4 @@ confidence = max(p
 print("Confidence:", confidence)
 result = f"{crop_name} ({round(confidence*100,2)}%)"
 print(result)
+response = requests.get(url, params=params, timeout=5)
