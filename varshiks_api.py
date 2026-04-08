@@ -103,3 +103,6 @@ try:
 data = response.json() if response.status_code == 200 else {}
 # safe weather extraction
 weather_data = data.get("current_weather") or {}
+# scale inputs
+temperature = round(temperature, 2)
+humidity = int(humidity)
