@@ -286,3 +286,5 @@ with col3:
     st.success("Assessment completed successfully")
 
     st.write("Total Predictions:", len(st.session_state["history"]))
+
+    st.info("Review the prediction, recommendation, and SHAP analysis before making agricultural decisions.")
