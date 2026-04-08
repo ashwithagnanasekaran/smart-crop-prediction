@@ -111,3 +111,5 @@ soil_type = 1
 # guard prediction
 if features:
     prediction = model.predict([features])
+    # final print cleanup
+print(f"Crop: {crop_name}, Temp: {temperature}, Humidity: {humidity}")
