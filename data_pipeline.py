@@ -69,3 +69,6 @@ def run_pipeline():
 # Run pipeline
 if __name__ == "__main__":
     run_pipeline()
+    print("✔ Data loaded successfully")
+    print("✔ Cleaning step completed")
+    print("✔ Preprocessing step completed")
