@@ -106,3 +106,5 @@ weather_data = data.get("current_weather") or {}
 # scale inputs
 temperature = round(temperature, 2)
 humidity = int(humidity)
+# add soil placeholder
+soil_type = 1
