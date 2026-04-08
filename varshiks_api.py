@@ -101,3 +101,5 @@ try:
     response = requests.get(url, params=params, timeout=5)
 # ensure json fallback
 data = response.json() if response.status_code == 200 else {}
+# safe weather extraction
+weather_data = data.get("current_weather") or {}
