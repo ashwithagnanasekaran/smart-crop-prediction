@@ -140,6 +140,7 @@ st.checkbox("Soil nutrients entered", value=True)
 st.caption("Recommended: enter realistic values for better prediction quality.")
 
 st.caption("Recommended: enter realistic values for better prediction quality.")
+from datetime import datetime
 
 import streamlit as st
 import shap
@@ -278,3 +279,5 @@ with col2:
 with col3:
     st.markdown("### 🤖 AI Result")
     st.write("Prediction, recommendation, and SHAP explanation are shown.")
+
+    st.write("Prediction Time:", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
