@@ -137,6 +137,10 @@ st.checkbox("Humidity entered", value=True)
 st.checkbox("Rainfall entered", value=True)
 st.checkbox("Soil nutrients entered", value=True)
 
+st.caption("Recommended: enter realistic values for better prediction quality.")
+
+st.caption("Recommended: enter realistic values for better prediction quality.")
+
 import streamlit as st
 import shap
 import matplotlib.pyplot as plt
