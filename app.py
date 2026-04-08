@@ -256,3 +256,16 @@ elif page == "Result":
 
             st.markdown("---")
             st.caption("Smart Crop Prediction System | Streamlit UI | SHAP Explainable AI")
+            col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.markdown("### 🌦 Weather Input")
+    st.write("Temperature, humidity, and rainfall are collected for assessment.")
+
+with col2:
+    st.markdown("### 🌱 Soil Input")
+    st.write("Nitrogen, phosphorus, potassium, and pH are used for analysis.")
+
+with col3:
+    st.markdown("### 🤖 AI Result")
+    st.write("Prediction, recommendation, and SHAP explanation are shown.")
