@@ -108,3 +108,6 @@ temperature = round(temperature, 2)
 humidity = int(humidity)
 # add soil placeholder
 soil_type = 1
+# guard prediction
+if features:
+    prediction = model.predict([features])
