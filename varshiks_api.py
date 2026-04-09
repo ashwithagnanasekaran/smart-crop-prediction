@@ -96,20 +96,17 @@ print("Confidence:", confidence)
 result = f"{crop_name} ({round(confidence*100,2)}%)"
 print(result)
 response = requests.get(url, params=params, timeout=5)
-# handle request exception
 try:
     response = requests.get(url, params=params, timeout=5)
-# ensure json fallback
 data = response.json() if response.status_code == 200 else {}
-# safe weather extraction
 weather_data = data.get("current_weather") or {}
-# scale inputs
 temperature = round(temperature, 2)
 humidity = int(humidity)
-# add soil placeholder
 soil_type = 1
-# guard prediction
 if features:
     prediction = model.predict([features])
-    # final print cleanup
 print(f"Crop: {crop_name}, Temp: {temperature}, Humidity: {humidity}")
+# add wind fallback
+wind_speed = weather_data.get("windspeed", 5)
+
+
