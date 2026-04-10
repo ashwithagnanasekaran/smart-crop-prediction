@@ -77,13 +77,17 @@ with card1:
     st.markdown("### 📈 Model Accuracy")
     st.info("Crop prediction model accuracy: 96%")
 
-    with card2:
+with card2:
     st.markdown("### 🌾 Crops Supported")
     st.info("Rice, Wheat, Maize, Cotton, Sugarcane")
 
-    with card3:
+with card3:
     st.markdown("### ☀️ Seasons")
     st.info("Kharif, Rabi, Summer")
+
+with card4:
+    st.markdown("### 🔁 Rotation Rules")
+    st.info("Avoid growing the same crop repeatedly on the same soil.")
 
 elif page == "Crop Assessment":
     st.title("🧪 Crop Assessment")
