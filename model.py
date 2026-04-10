@@ -146,3 +146,18 @@ def predict_crop(model, input_data):
     input_df = pd.DataFrame([input_data])
     prediction = model.predict(input_df)
     return prediction[0]
+from sklearn.model_selection import GridSearchCV
+
+def tune_model(X_train, y_train):
+    param_grid = {
+        "model__n_estimators": [50, 100],
+        "model__max_depth": [None, 10, 20],
+    }
+
+    pipeline = build_pipeline()
+
+    grid = GridSearchCV(pipeline, param_grid, cv=3, n_jobs=-1)
+    grid.fit(X_train, y_train)
+
+    print("Best Parameters:", grid.best_params_)
+    return grid.best_estimator_
