@@ -73,6 +73,10 @@ st.markdown("## Dashboard Highlights")
 
 card1, card2, card3, card4 = st.columns(4)
 
+with card1:
+    st.markdown("### 📈 Model Accuracy")
+    st.info("Crop prediction model accuracy: 96%")
+
 elif page == "Crop Assessment":
     st.title("🧪 Crop Assessment")
     st.subheader("Enter Soil and Weather Details")
