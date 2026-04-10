@@ -114,4 +114,5 @@ params["latitude"] = 13.08
 params["longitude"] = 80.27
 # ensure params dict exists
 params = params if isinstance(params, dict) else {}
+params["temperature_unit"] = "celsius"
 
