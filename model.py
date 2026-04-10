@@ -161,3 +161,12 @@ def tune_model(X_train, y_train):
 
     print("Best Parameters:", grid.best_params_)
     return grid.best_estimator_
+from sklearn.model_selection import GridSearchCV
+
+from sklearn.model_selection import cross_val_score
+
+def cross_validate_model(model, X, y):
+    scores = cross_val_score(model, X, y, cv=5)
+    print("Cross-validation scores:", scores)
+    print("Average score:", scores.mean())
+    return scores.mean()
