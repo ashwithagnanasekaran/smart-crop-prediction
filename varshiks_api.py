@@ -119,4 +119,6 @@ params["temperature_unit"] = "celsius"
 print("Keys:", data.keys())
 # extract time info
 time = weather_data.get("time", "N/A")
+# add timestamp to output
+print("Time:", time)
 
