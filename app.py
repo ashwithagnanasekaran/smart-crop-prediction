@@ -81,6 +81,10 @@ with card1:
     st.markdown("### 🌾 Crops Supported")
     st.info("Rice, Wheat, Maize, Cotton, Sugarcane")
 
+    with card3:
+    st.markdown("### ☀️ Seasons")
+    st.info("Kharif, Rabi, Summer")
+
 elif page == "Crop Assessment":
     st.title("🧪 Crop Assessment")
     st.subheader("Enter Soil and Weather Details")
