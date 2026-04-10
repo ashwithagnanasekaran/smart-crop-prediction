@@ -71,6 +71,7 @@ page = st.sidebar.radio("Navigate", ["Home", "Crop Assessment", "Result"])
 
 st.markdown("## Dashboard Highlights")
 
+card1, card2, card3, card4 = st.columns(4)
 
 elif page == "Crop Assessment":
     st.title("🧪 Crop Assessment")
