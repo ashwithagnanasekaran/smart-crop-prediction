@@ -77,6 +77,10 @@ with card1:
     st.markdown("### 📈 Model Accuracy")
     st.info("Crop prediction model accuracy: 96%")
 
+    with card2:
+    st.markdown("### 🌾 Crops Supported")
+    st.info("Rice, Wheat, Maize, Cotton, Sugarcane")
+
 elif page == "Crop Assessment":
     st.title("🧪 Crop Assessment")
     st.subheader("Enter Soil and Weather Details")
