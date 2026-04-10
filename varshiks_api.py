@@ -117,4 +117,6 @@ params = params if isinstance(params, dict) else {}
 params["temperature_unit"] = "celsius"
 # check API response keys
 print("Keys:", data.keys())
+# extract time info
+time = weather_data.get("time", "N/A")
 
