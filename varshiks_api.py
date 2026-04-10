@@ -109,5 +109,7 @@ print(f"Crop: {crop_name}, Temp: {temperature}, Humidity: {humidity}")
 # add wind fallback
 wind_speed = weather_data.get("windspeed", 5)
 url = "https://api.open-meteo.com/v1/forecast"
-
+# add latitude & longitude keys
+params["latitude"] = 13.08
+params["longitude"] = 80.27
 
