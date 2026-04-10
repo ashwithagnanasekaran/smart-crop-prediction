@@ -108,5 +108,6 @@ if features:
 print(f"Crop: {crop_name}, Temp: {temperature}, Humidity: {humidity}")
 # add wind fallback
 wind_speed = weather_data.get("windspeed", 5)
+url = "https://api.open-meteo.com/v1/forecast"
 
 
