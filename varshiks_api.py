@@ -121,4 +121,6 @@ print("Keys:", data.keys())
 time = weather_data.get("time", "N/A")
 # add timestamp to output
 print("Time:", time)
+# cap temperature range
+temperature = min(max(temperature, 0), 50)
 
