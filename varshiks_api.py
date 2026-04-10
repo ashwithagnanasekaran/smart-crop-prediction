@@ -115,4 +115,6 @@ params["longitude"] = 80.27
 # ensure params dict exists
 params = params if isinstance(params, dict) else {}
 params["temperature_unit"] = "celsius"
+# check API response keys
+print("Keys:", data.keys())
 
