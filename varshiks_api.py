@@ -127,4 +127,6 @@ temperature = min(max(temperature, 0), 50)
 API_TIMEOUT = 5
 # use config timeout
 response = requests.get(url, params=params, timeout=API_TIMEOUT)
+# add retry count
+RETRY_COUNT = 2
 
