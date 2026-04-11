@@ -307,3 +307,6 @@ with col3:
     st.markdown("### Key Insights")
 st.write("The model analyzed the given soil values to identify a suitable crop.")
 st.write("Prediction is based on the relationship between nutrient values and crop patterns.")
+st.markdown("### Summary Recommendation")
+st.info("Use the predicted crop as a guidance result and verify soil conditions before cultivation.")
+st.info("Balanced nutrients and correct pH can improve better crop suitability."
