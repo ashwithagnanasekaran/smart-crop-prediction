@@ -303,3 +303,7 @@ with col3:
     st.write("Total Predictions:", len(st.session_state["history"]))
 
     st.info("Review the prediction, recommendation, and SHAP analysis before making agricultural decisions.")
+
+    st.markdown("### Key Insights")
+st.write("The model analyzed the given soil values to identify a suitable crop.")
+st.write("Prediction is based on the relationship between nutrient values and crop patterns.")
