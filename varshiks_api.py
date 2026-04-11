@@ -125,4 +125,6 @@ print("Time:", time)
 temperature = min(max(temperature, 0), 50)
 # create config for API
 API_TIMEOUT = 5
+# use config timeout
+response = requests.get(url, params=params, timeout=API_TIMEOUT)
 
