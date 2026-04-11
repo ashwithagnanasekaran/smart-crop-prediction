@@ -170,3 +170,9 @@ def cross_validate_model(model, X, y):
     print("Cross-validation scores:", scores)
     print("Average score:", scores.mean())
     return scores.mean()
+from sklearn.metrics import confusion_matrix
+
+def show_confusion_matrix(model, X_test, y_test):
+    preds = model.predict(X_test)
+    cm = confusion_matrix(y_test, preds)
+    print("Confusion Matrix:\n", cm)
