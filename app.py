@@ -310,3 +310,11 @@ st.write("Prediction is based on the relationship between nutrient values and cr
 st.markdown("### Summary Recommendation")
 st.info("Use the predicted crop as a guidance result and verify soil conditions before cultivation.")
 st.info("Balanced nutrients and correct pH can improve better crop suitability."
+st.markdown("### Explanation in Words")
+st.write(
+    f"The system predicted **{prediction[0]}** because the entered soil features "
+    "are closer to the conditions usually suitable for this crop."
+)
+st.write(
+    "The SHAP chart above shows which features contributed more to the final prediction."
+)
