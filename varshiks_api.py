@@ -123,4 +123,6 @@ time = weather_data.get("time", "N/A")
 print("Time:", time)
 # cap temperature range
 temperature = min(max(temperature, 0), 50)
+# create config for API
+API_TIMEOUT = 5
 
