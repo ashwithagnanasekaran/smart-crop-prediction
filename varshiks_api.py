@@ -132,4 +132,7 @@ RETRY_COUNT = 2
 # basic retry logic
 for _ in range(RETRY_COUNT):
     response = requests.get(url, params=params, timeout=API_TIMEOUT)
+    # break on success
+if response.status_code == 200:
+    break
 
