@@ -129,4 +129,7 @@ API_TIMEOUT = 5
 response = requests.get(url, params=params, timeout=API_TIMEOUT)
 # add retry count
 RETRY_COUNT = 2
+# basic retry logic
+for _ in range(RETRY_COUNT):
+    response = requests.get(url, params=params, timeout=API_TIMEOUT)
 
