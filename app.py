@@ -49,6 +49,7 @@ st.markdown("""
         color: #fef3c7 !important;
     }
     
+<<<<<<< HEAD
     [data-testid="stSidebar"] h1, 
     [data-testid="stSidebar"] h2, 
     [data-testid="stSidebar"] h3 {
@@ -99,6 +100,78 @@ st.markdown("""
         color: #1a4d2e !important;
     }
     
+=======
+    with col1:
+>>>>>>> e3f496714ab80c311ee06d121bc21117a3938908
+        st.markdown("### Weather Details")
+        st.write("Temperature:", temp)
+        st.write("Humidity:", humidity)
+        st.write("Rainfall:", rainfall)
+<<<<<<< HEAD
+=======
+
+    with col2:
+        st.markdown("### Soil Details")
+        st.write("Nitrogen:", nitrogen)
+        st.write("Phosphorus:", phosphorus)
+        st.write("Potassium:", potassium)
+        st.write("pH:", ph)
+
+    st.session_state["input_data"] = [nitrogen, phosphorus, potassium, ph]
+
+    import streamlit as st
+
+st.set_page_config(page_title="Smart Crop Prediction", layout="wide")
+
+page = st.sidebar.radio("Navigate", ["Home", "Crop Assessment", "Result"])
+
+st.markdown("## Dashboard Highlights")
+
+card1, card2, card3, card4 = st.columns(4)
+
+with card1:
+    st.markdown("### 📈 Model Accuracy")
+    st.info("Crop prediction model accuracy: 96%")
+
+with card2:
+    st.markdown("### 🌾 Crops Supported")
+    st.info("Rice, Wheat, Maize, Cotton, Sugarcane")
+
+with card3:
+    st.markdown("### ☀️ Seasons")
+    st.info("Kharif, Rabi, Summer")
+
+with card4:
+    st.markdown("### 🔁 Rotation Rules")
+    st.info("Avoid growing the same crop repeatedly on the same soil.")
+
+elif page == "Crop Assessment":
+    st.title("🧪 Crop Assessment")
+    st.subheader("Enter Soil and Weather Details")
+
+    temp = st.slider("Temperature", 0, 50, 25)
+    humidity = st.slider("Humidity", 0, 100, 60)
+    rainfall = st.slider("Rainfall", 0, 300, 100)
+
+    nitrogen = st.number_input("Nitrogen (N)", min_value=0, value=50)
+    phosphorus = st.number_input("Phosphorus (P)", min_value=0, value=50)
+    potassium = st.number_input("Potassium (K)", min_value=0, value=50)
+    ph = st.slider("Soil pH", 0.0, 14.0, 6.5)
+
+    st.markdown("### Selected Input Summary")
+    st.write({
+        "Temperature": temp,
+        "Humidity": humidity,
+        "Rainfall": rainfall,
+        "Nitrogen": nitrogen,
+        "Phosphorus": phosphorus,
+        "Potassium": potassium,
+        "pH": ph
+    })
+
+    col1, col2 = st.columns(2)
+
+    with col1:
         st.markdown("### Weather Details")
         st.write("Temperature:", temp)
         st.write("Humidity:", humidity)
@@ -129,94 +202,248 @@ elif page == "Result":
 
             st.markdown("### Recommendation")
             st.info(f"The system suggests **{prediction[0]}** based on the current soil values.")
+            st.markdown("### Input Checklist")
+st.checkbox("Temperature entered", value=True)
+st.checkbox("Humidity entered", value=True)
+st.checkbox("Rainfall entered", value=True)
+st.checkbox("Soil nutrients entered", value=True)
 
-            explainer = shap.Explainer(model)
-            shap_values = explainer([input_data])
+st.caption("Recommended: enter realistic values for better prediction quality.")
 
-            st.markdown("---")
-            st.markdown("### Explainable AI Analysis")
+st.caption("Recommended: enter realistic values for better prediction quality.")
+from datetime import datetime
 
-            st.subheader("📊 SHAP Explanation")
-            fig, ax = plt.subplots()
-            shap.plots.bar(shap_values[0], show=False)
-            st.pyplot(fig)
+import streamlit as st
+import shap
+import matplotlib.pyplot as plt
 
-            st.caption("This chart shows which soil features contributed more to the prediction.")
+st.set_page_config(page_title="Smart Crop Prediction", layout="wide")
 
-            st.session_state["history"].append(prediction[0])
+page = st.sidebar.radio("Navigate", ["Home", "Crop Assessment", "Result"])
 
-            if st.button("Go to Result Page"):
-            st.session_state["go_result"] = True
-            st.experimental_rerun()
+if page == "Home":
+    st.title("🌱 Smart Crop Prediction System")
+    st.subheader("Welcome to the Crop Prediction Application")
+    st.write("This system helps predict suitable crops using soil and weather details.")
 
-            if any(v is None for v in input_data):
-            st.error("Please enter all input values before prediction.")
+elif page == "Crop Assessment":
+    st.title("🧪 Crop Assessment")
+    st.subheader("Enter Soil and Weather Details")
 
-            st.markdown("### Feature Impact")
+    temp = st.slider("Temperature", 0, 50, 25)
+    humidity = st.slider("Humidity", 0, 100, 60)
+    rainfall = st.slider("Rainfall", 0, 300, 100)
 
-            feature_names = ["Nitrogen", "Phosphorus", "Potassium", "pH"]
+    nitrogen = st.number_input("Nitrogen (N)", min_value=0, value=50)
+    phosphorus = st.number_input("Phosphorus (P)", min_value=0, value=50)
+    potassium = st.number_input("Potassium (K)", min_value=0, value=50)
+    ph = st.slider("Soil pH", 0.0, 14.0, 6.5)
 
-            for i, val in enumerate(input_data):
-                st.write(f"{feature_names[i]}: {val}")
+    st.markdown("### Selected Input Summary")
+    st.write({
+        "Temperature": temp,
+        "Humidity": humidity,
+        "Rainfall": rainfall,
+        "Nitrogen": nitrogen,
+        "Phosphorus": phosphorus,
+        "Potassium": potassium,
+        "pH": ph
+    })
 
-            if st.button("Reset Inputs"):
-            st.session_state.clear()
-            st.experimental_rerun()
+    col1, col2 = st.columns(2)
 
-            if "history" not in st.session_state:
-            st.session_state["history"] = []
+    with col1:
+>>>>>>> e3f496714ab80c311ee06d121bc21117a3938908
 
-            st.markdown("### Prediction History")
 
-            for i, item in enumerate(st.session_state["history"]):
-            st.write(f"{i+1}. {item}")
+    def get_weather_data(city):
+    api_key = "74eb35dc87ea251ffb73b2ce2becbae0"
+    url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
 
-            st.markdown("### Result Summary")
-            st.write({
-                "Predicted Crop": prediction[0],
-                "Input Count": len(input_data),
-                "Status": "Prediction Completed"
-            })
-            st.success("Use the sidebar to navigate through Home, Crop Assessment, and Result pages.")
+    try:
+        response = requests.get(url)
+        data = response.json()
 
-            st.info("Fill all soil and weather values carefully before moving to the Result page.")
+        # DEBUG PRINT (helps you understand errors)
+        print(data)
 
-            st.markdown("---")
-            st.caption("Smart Crop Prediction System | Streamlit UI | SHAP Explainable AI")
-            col1, col2, col3 = st.columns(3)
+        if response.status_code == 200 and "main" in data:
+            temp = data['main']['temp']
+            humidity = data['main']['humidity']
+            rainfall = data.get('rain', {}).get('1h', 0)
 
-with col1:
-    st.markdown("### 🌦 Weather Input")
-    st.write("Temperature, humidity, and rainfall are collected for assessment.")
+            return temp, humidity, rainfall
+        else:
+            print("API Error:", data)
+            return None, None, None
 
-with col2:
-    st.markdown("### 🌱 Soil Input")
-    st.write("Nitrogen, phosphorus, potassium, and pH are used for analysis.")
+    except Exception as e:
+        print("Exception:", e)
+        return None, None, None
 
-with col3:
-    st.markdown("### 🤖 AI Result")
-    st.write("Prediction, recommendation, and SHAP explanation are shown.")
+def predict_crops(input_data):
+    input_df = pd.DataFrame([input_data], columns=feature_names)
+    probabilities = model.predict_proba(input_df)[0]
 
-    st.write("Prediction Time:", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    le = load_encoder()
 
-    st.markdown("### Prediction Status")
-    st.success("Assessment completed successfully")
+    # FIX: use label encoder
+    crop_names = le.inverse_transform(np.arange(len(probabilities)))
 
-    st.write("Total Predictions:", len(st.session_state["history"]))
+    crop_confidences = [(crop, prob * 100) for crop, prob in zip(crop_names, probabilities)]
+    
+    return sorted(crop_confidences, key=lambda x: x[1], reverse=True)
 
-    st.info("Review the prediction, recommendation, and SHAP analysis before making agricultural decisions.")
+def get_crops_by_season(season):
+    """Get all crops that belong to a season"""
+    return [crop for crop in all_crops if crop_seasons.get(crop) == season]
 
-    st.markdown("### Key Insights")
-st.write("The model analyzed the given soil values to identify a suitable crop.")
-st.write("Prediction is based on the relationship between nutrient values and crop patterns.")
-st.markdown("### Summary Recommendation")
-st.info("Use the predicted crop as a guidance result and verify soil conditions before cultivation.")
-st.info("Balanced nutrients and correct pH can improve better crop suitability."
-st.markdown("### Explanation in Words")
-st.write(
-    f"The system predicted **{prediction[0]}** because the entered soil features "
-    "are closer to the conditions usually suitable for this crop."
-)
-st.write(
-    "The SHAP chart above shows which features contributed more to the final prediction."
-)
+def get_confidence_level(confidence):
+    """Get confidence level class"""
+    if confidence >= 90:
+        return "conf-high"
+    elif confidence >= 70:
+        return "conf-moderate"
+    else:
+        return "conf-low"
+
+def get_seasonal_note(season, temp, humidity):
+    """Generate seasonal growing notes"""
+    notes = {
+        'Kharif': {
+            'title': '🌧️ Kharif Season Notes',
+            'tips': [
+                'Monsoon season - ensure good drainage',
+                'High humidity may increase pest risk',
+                'Ideal for water-loving crops like Rice'
+            ]
+        },
+        'Rabi': {
+            'title': '❄️ Rabi Season Notes',
+            'tips': [
+                'Winter season - frost protection needed',
+                'Lower water requirement',
+                'Ideal for legumes and wheat'
+            ]
+        },
+        'Zaid': {
+            'title': '☀️ Zaid Season Notes',
+            'tips': [
+                'Summer season - irrigation critical',
+                'Heat-tolerant crops recommended',
+                'Short duration crops ideal'
+            ]
+        }
+    }
+    return notes.get(season, {'title': '', 'tips': []})
+
+# SESSION STATE INITIALIZATION
+defaults = {
+    'nitrogen': 50.0,
+    'phosphorus': 50.0,
+    'potassium': 50.0,
+    'ph': 6.5,
+    'temperature': 26.0,
+    'humidity': 70.0,
+    'rainfall': 120.0,
+    'has_previous': False,
+    'previous_crop': 'Rice',
+    'location': 'Chennai',
+    'pred_made': False,
+    'results': None,
+    'selected': 'Crop Assessment'  # Add this
+
+}
+
+for key, val in defaults.items():
+    if key not in st.session_state:
+        st.session_state[key] = val
+        
+def fill_random():
+    """Fill with random values"""
+    st.session_state.nitrogen = round(random.uniform(20, 120), 1)
+    st.session_state.phosphorus = round(random.uniform(15, 100), 1)
+    st.session_state.potassium = round(random.uniform(15, 150), 1)
+    st.session_state.ph = round(random.uniform(5.5, 8.0), 1)
+    st.session_state.temperature = round(random.uniform(15, 38), 1)
+    st.session_state.humidity = round(random.uniform(40, 90), 1)
+    st.session_state.rainfall = round(random.uniform(50, 250), 1)
+    st.session_state.has_previous = random.choice([True, False])
+    st.session_state.previous_crop = random.choice(all_crops)
+    st.session_state.location = random.choice(["Chennai","Coimbatore","Madurai","Trichy","Salem","Erode","Tirunelveli","Pollachi","Kinathukadavu","Tiruppur","Karur","Dindigul","Thanjavur"])
+    st.session_state.pred_made = False
+
+# SIDEBAR NAVIGATION
+with st.sidebar:
+    st.title("🌾 Smart Crop Rotation")
+    
+    selected = option_menu(
+        menu_title=None,
+        options=["Home", "Crop Assessment", "Results"],
+        icons=["house", "search", "bar-chart"],
+        default_index=1,
+        styles={
+            "container": {"padding": "0!important"},
+            "nav-link": {"font-size": "14px", "text-align": "left"},
+        }
+    )
+    
+    st.markdown("---")
+    
+    # Model info
+    st.markdown("### Model Info")
+    st.info(f"🎯 **Accuracy:** 99.32%\n🌱 **Crops:** {len(all_crops)} ")
+    
+    # Quick tips
+    with st.expander("💡 Quick Tips"):
+        st.markdown("""
+        **Soil Ranges:**
+        - N: 20-120
+        - P: 15-100  
+        - K: 15-150
+        - pH: 5.5-8.0
+        
+        **Season Guide:**
+        - 🌧️ Kharif: Jun-Oct
+        - ❄️ Rabi: Oct-Mar
+        - ☀️ Zaid: Apr-Jun
+        """)
+# HOME PAGE
+if selected == "Home":
+    st.title("🌾 Smart Crop Rotation Recommendation System")
+    
+    col1, col2 = st.columns([3, 1])
+    
+    with col1:
+        st.markdown("""
+        ### Welcome to Smart Crop Rotation
+        
+        This AI-powered system helps farmers make **intelligent crop rotation decisions** 
+        based on soil conditions, climate data, and agricultural science.
+        
+        ### How It Works
+        
+        **1. Enter Soil Conditions**  
+        Input your soil's N, P, K levels, pH, and current climate data
+        
+        **2. Tell Us Your Previous Crop**  
+        Let us know what you planted last season
+        
+        **3. Get Rotation Recommendations**  
+        Receive personalized recommendations for the next two seasons with:
+        - Top crop choices with confidence scores
+        - Rotation benefits and soil health insights
+        - Complete crop rotation cycle planning
+        
+        ### Why Crop Rotation Matters
+        
+        - 🌱 **Soil Health:** Prevents nutrient depletion
+        - 🐛 **Pest Control:** Breaks pest and disease cycles
+        - 🌾 **Higher Yields:** Better long-term productivity
+        - 💰 **Profit:** Diversified income streams
+        """)
+    
+    with col2:
+        st.image("https://cdn-icons-png.flaticon.com/512/2917/2917995.png", width=180)
+    
+    st.markdown("---")
