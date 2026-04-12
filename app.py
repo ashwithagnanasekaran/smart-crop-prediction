@@ -302,3 +302,53 @@ defaults = {
 for key, val in defaults.items():
     if key not in st.session_state:
         st.session_state[key] = val
+        
+def fill_random():
+    """Fill with random values"""
+    st.session_state.nitrogen = round(random.uniform(20, 120), 1)
+    st.session_state.phosphorus = round(random.uniform(15, 100), 1)
+    st.session_state.potassium = round(random.uniform(15, 150), 1)
+    st.session_state.ph = round(random.uniform(5.5, 8.0), 1)
+    st.session_state.temperature = round(random.uniform(15, 38), 1)
+    st.session_state.humidity = round(random.uniform(40, 90), 1)
+    st.session_state.rainfall = round(random.uniform(50, 250), 1)
+    st.session_state.has_previous = random.choice([True, False])
+    st.session_state.previous_crop = random.choice(all_crops)
+    st.session_state.location = random.choice(["Chennai","Coimbatore","Madurai","Trichy","Salem","Erode","Tirunelveli","Pollachi","Kinathukadavu","Tiruppur","Karur","Dindigul","Thanjavur"])
+    st.session_state.pred_made = False
+
+# SIDEBAR NAVIGATION
+with st.sidebar:
+    st.title("🌾 Smart Crop Rotation")
+    
+    selected = option_menu(
+        menu_title=None,
+        options=["Home", "Crop Assessment", "Results"],
+        icons=["house", "search", "bar-chart"],
+        default_index=1,
+        styles={
+            "container": {"padding": "0!important"},
+            "nav-link": {"font-size": "14px", "text-align": "left"},
+        }
+    )
+    
+    st.markdown("---")
+    
+    # Model info
+    st.markdown("### Model Info")
+    st.info(f"🎯 **Accuracy:** 99.32%\n🌱 **Crops:** {len(all_crops)} ")
+    
+    # Quick tips
+    with st.expander("💡 Quick Tips"):
+        st.markdown("""
+        **Soil Ranges:**
+        - N: 20-120
+        - P: 15-100  
+        - K: 15-150
+        - pH: 5.5-8.0
+        
+        **Season Guide:**
+        - 🌧️ Kharif: Jun-Oct
+        - ❄️ Rabi: Oct-Mar
+        - ☀️ Zaid: Apr-Jun
+        """)
