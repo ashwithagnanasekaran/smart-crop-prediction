@@ -352,3 +352,42 @@ with st.sidebar:
         - ❄️ Rabi: Oct-Mar
         - ☀️ Zaid: Apr-Jun
         """)
+# HOME PAGE
+if selected == "Home":
+    st.title("🌾 Smart Crop Rotation Recommendation System")
+    
+    col1, col2 = st.columns([3, 1])
+    
+    with col1:
+        st.markdown("""
+        ### Welcome to Smart Crop Rotation
+        
+        This AI-powered system helps farmers make **intelligent crop rotation decisions** 
+        based on soil conditions, climate data, and agricultural science.
+        
+        ### How It Works
+        
+        **1. Enter Soil Conditions**  
+        Input your soil's N, P, K levels, pH, and current climate data
+        
+        **2. Tell Us Your Previous Crop**  
+        Let us know what you planted last season
+        
+        **3. Get Rotation Recommendations**  
+        Receive personalized recommendations for the next two seasons with:
+        - Top crop choices with confidence scores
+        - Rotation benefits and soil health insights
+        - Complete crop rotation cycle planning
+        
+        ### Why Crop Rotation Matters
+        
+        - 🌱 **Soil Health:** Prevents nutrient depletion
+        - 🐛 **Pest Control:** Breaks pest and disease cycles
+        - 🌾 **Higher Yields:** Better long-term productivity
+        - 💰 **Profit:** Diversified income streams
+        """)
+    
+    with col2:
+        st.image("https://cdn-icons-png.flaticon.com/512/2917/2917995.png", width=180)
+    
+    st.markdown("---")
