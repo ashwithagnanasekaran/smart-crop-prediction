@@ -1,53 +1,54 @@
 import streamlit as st
+import pandas as pd
+import numpy as np
+import joblib
+import random
+import requests
+import shap
+from datetime import datetime
+import matplotlib.pyplot as plt
+from streamlit_option_menu import option_menu
 
-st.set_page_config(page_title="Smart Crop Prediction", layout="wide")
+# PAGE CONFIG - CLEAN & PROFESSIONAL
+st.set_page_config(
+    page_title="Smart Crop Rotation System",
+    page_icon="🌾",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
-page = st.sidebar.radio("Navigate", ["Home", "Crop Assessment", "Result"])
-
-if page == "Home":
-    st.title("🌱 Smart Crop Prediction System")
-    st.subheader("Welcome to the Crop Prediction Application")
-    st.write("This system helps predict suitable crops using soil and weather details.")
-
-if st.session_state.get("go_result"):
-    page = "Result"
-    st.session_state["go_result"] = False
-
-st.set_page_config(page_title="Smart Crop Prediction", layout="wide")
-
-page = st.sidebar.radio("Navigate", ["Home", "Crop Assessment", "Result"])
-
-if page == "Home":
-    st.title("🌱 Smart Crop Prediction System")
-    st.subheader("Welcome to the Crop Prediction Application")
-    st.write("This system helps predict suitable crops using soil and weather details.")
-
-elif page == "Crop Assessment":
-    st.title("🧪 Crop Assessment")
-    st.subheader("Enter Soil and Weather Details")
-
-    temp = st.slider("Temperature", 0, 50, 25)
-    humidity = st.slider("Humidity", 0, 100, 60)
-    rainfall = st.slider("Rainfall", 0, 300, 100)
-
-    nitrogen = st.number_input("Nitrogen (N)", min_value=0, value=50)
-    phosphorus = st.number_input("Phosphorus (P)", min_value=0, value=50)
-    potassium = st.number_input("Potassium (K)", min_value=0, value=50)
-    ph = st.slider("Soil pH", 0.0, 14.0, 6.5)
-
-    st.markdown("### Selected Input Summary")
-    st.write({
-        "Temperature": temp,
-        "Humidity": humidity,
-        "Rainfall": rainfall,
-        "Nitrogen": nitrogen,
-        "Phosphorus": phosphorus,
-        "Potassium": potassium,
-        "pH": ph
-    })
-
-    col1, col2 = st.columns(2)
-
+# CUSTOM CSS - Complete Green Nature Theme
+st.markdown("""
+    <style>
+    /* ========== MAIN BACKGROUND - FRESH FARM FIELD ========== */
+    .stApp {
+        background: linear-gradient(135deg, 
+            #0d2b1f 0%,
+            #1a4d2e 50%,
+            #0d2b1f 100%
+        );
+    }
+    
+    /* Main content area */
+    .main > div {
+        background: transparent;
+    }
+    
+    /* ========== SIDEBAR - DEEP FOREST THEME ========== */
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, 
+            #0d2b1f 0%,
+            #1a4d2e 40%,
+            #2d6a4f 70%,
+            #1a4d2e 100%
+        ) !important;
+        border-right: 3px solid #f5c542 !important;
+    }
+    
+    [data-testid="stSidebar"] * {
+        color: #fef3c7 !important;
+    }
+    
     with col1:
         st.markdown("### Weather Details")
         st.write("Temperature:", temp)
