@@ -198,57 +198,58 @@ elif page == "Crop Assessment":
     col1, col2 = st.columns(2)
 
     with col1:
-        st.markdown("### Weather Details")
-        st.write("Temperature:", temp)
-        st.write("Humidity:", humidity)
-        st.write("Rainfall:", rainfall)
+       
+def get_weather_data(city):
+    api_key = "74eb35dc87ea251ffb73b2ce2becbae0"
+    url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
 
-    with col2:
-        st.markdown("### Soil Details")
-        st.write("Nitrogen:", nitrogen)
-        st.write("Phosphorus:", phosphorus)
-        st.write("Potassium:", potassium)
-        st.write("pH:", ph)
+    try:
+        response = requests.get(url)
+        data = response.json()
 
-    st.session_state["input_data"] = [nitrogen, phosphorus, potassium, ph]
+        # DEBUG PRINT (helps you understand errors)
+        print(data)
 
-elif page == "Result":
-    st.title("📊 Result")
+        if response.status_code == 200 and "main" in data:
+            temp = data['main']['temp']
+            humidity = data['main']['humidity']
+            rainfall = data.get('rain', {}).get('1h', 0)
 
-    if "input_data" not in st.session_state:
-        st.warning("Please navigate to Crop Assessment page and enter values first.")
+            return temp, humidity, rainfall
+        else:
+            print("API Error:", data)
+            return None, None, None
+
+    except Exception as e:
+        print("Exception:", e)
+        return None, None, None
+
+def predict_crops(input_data):
+    input_df = pd.DataFrame([input_data], columns=feature_names)
+    probabilities = model.predict_proba(input_df)[0]
+
+    le = load_encoder()
+
+    # FIX: use label encoder
+    crop_names = le.inverse_transform(np.arange(len(probabilities)))
+
+    crop_confidences = [(crop, prob * 100) for crop, prob in zip(crop_names, probabilities)]
+    
+    return sorted(crop_confidences, key=lambda x: x[1], reverse=True)
+
+def get_crops_by_season(season):
+    """Get all crops that belong to a season"""
+    return [crop for crop in all_crops if crop_seasons.get(crop) == season]
+
+def get_confidence_level(confidence):
+    """Get confidence level class"""
+    if confidence >= 90:
+        return "conf-high"
+    elif confidence >= 70:
+        return "conf-moderate"
     else:
-        input_data = st.session_state["input_data"]
+        return "conf-low"
 
-        if st.button("Predict Crop"):
-            with st.spinner("Predicting crop..."):
-                prediction = model.predict([input_data])
-
-            st.success(f"🌾 Predicted Crop: {prediction[0]}")
-
-            st.markdown("### Recommendation")
-            st.info(f"The system suggests **{prediction[0]}** based on the current soil values.")
-
-            explainer = shap.Explainer(model)
-            shap_values = explainer([input_data])
-
-            st.markdown("---")
-            st.markdown("### Explainable AI Analysis")
-
-            st.subheader("📊 SHAP Explanation")
-            fig, ax = plt.subplots()
-            shap.plots.bar(shap_values[0], show=False)
-            st.pyplot(fig)
-
-            st.caption("This chart shows which soil features contributed more to the prediction.")
-
-            st.session_state["history"].append(prediction[0])
-
-            if st.button("Go to Result Page"):
-            st.session_state["go_result"] = True
-            st.experimental_rerun()
-
-            if any(v is None for v in input_data):
             st.error("Please enter all input values before prediction.")
 
             st.markdown("### Feature Impact")
