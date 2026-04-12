@@ -198,8 +198,9 @@ elif page == "Crop Assessment":
     col1, col2 = st.columns(2)
 
     with col1:
-       
-def get_weather_data(city):
+
+
+    def get_weather_data(city):
     api_key = "74eb35dc87ea251ffb73b2ce2becbae0"
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
 
@@ -250,73 +251,54 @@ def get_confidence_level(confidence):
     else:
         return "conf-low"
 
-            st.error("Please enter all input values before prediction.")
+def get_seasonal_note(season, temp, humidity):
+    """Generate seasonal growing notes"""
+    notes = {
+        'Kharif': {
+            'title': '🌧️ Kharif Season Notes',
+            'tips': [
+                'Monsoon season - ensure good drainage',
+                'High humidity may increase pest risk',
+                'Ideal for water-loving crops like Rice'
+            ]
+        },
+        'Rabi': {
+            'title': '❄️ Rabi Season Notes',
+            'tips': [
+                'Winter season - frost protection needed',
+                'Lower water requirement',
+                'Ideal for legumes and wheat'
+            ]
+        },
+        'Zaid': {
+            'title': '☀️ Zaid Season Notes',
+            'tips': [
+                'Summer season - irrigation critical',
+                'Heat-tolerant crops recommended',
+                'Short duration crops ideal'
+            ]
+        }
+    }
+    return notes.get(season, {'title': '', 'tips': []})
 
-            st.markdown("### Feature Impact")
+# SESSION STATE INITIALIZATION
+defaults = {
+    'nitrogen': 50.0,
+    'phosphorus': 50.0,
+    'potassium': 50.0,
+    'ph': 6.5,
+    'temperature': 26.0,
+    'humidity': 70.0,
+    'rainfall': 120.0,
+    'has_previous': False,
+    'previous_crop': 'Rice',
+    'location': 'Chennai',
+    'pred_made': False,
+    'results': None,
+    'selected': 'Crop Assessment'  # Add this
 
-            feature_names = ["Nitrogen", "Phosphorus", "Potassium", "pH"]
+}
 
-            for i, val in enumerate(input_data):
-                st.write(f"{feature_names[i]}: {val}")
-
-            if st.button("Reset Inputs"):
-            st.session_state.clear()
-            st.experimental_rerun()
-
-            if "history" not in st.session_state:
-            st.session_state["history"] = []
-
-            st.markdown("### Prediction History")
-
-            for i, item in enumerate(st.session_state["history"]):
-            st.write(f"{i+1}. {item}")
-
-            st.markdown("### Result Summary")
-            st.write({
-                "Predicted Crop": prediction[0],
-                "Input Count": len(input_data),
-                "Status": "Prediction Completed"
-            })
-            st.success("Use the sidebar to navigate through Home, Crop Assessment, and Result pages.")
-
-            st.info("Fill all soil and weather values carefully before moving to the Result page.")
-
-            st.markdown("---")
-            st.caption("Smart Crop Prediction System | Streamlit UI | SHAP Explainable AI")
-            col1, col2, col3 = st.columns(3)
-
-with col1:
-    st.markdown("### 🌦 Weather Input")
-    st.write("Temperature, humidity, and rainfall are collected for assessment.")
-
-with col2:
-    st.markdown("### 🌱 Soil Input")
-    st.write("Nitrogen, phosphorus, potassium, and pH are used for analysis.")
-
-with col3:
-    st.markdown("### 🤖 AI Result")
-    st.write("Prediction, recommendation, and SHAP explanation are shown.")
-
-    st.write("Prediction Time:", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-
-    st.markdown("### Prediction Status")
-    st.success("Assessment completed successfully")
-
-    st.write("Total Predictions:", len(st.session_state["history"]))
-
-    st.info("Review the prediction, recommendation, and SHAP analysis before making agricultural decisions.")
-
-    st.markdown("### Key Insights")
-st.write("The model analyzed the given soil values to identify a suitable crop.")
-st.write("Prediction is based on the relationship between nutrient values and crop patterns.")
-st.markdown("### Summary Recommendation")
-st.info("Use the predicted crop as a guidance result and verify soil conditions before cultivation.")
-st.info("Balanced nutrients and correct pH can improve better crop suitability."
-st.markdown("### Explanation in Words")
-st.write(
-    f"The system predicted **{prediction[0]}** because the entered soil features "
-    "are closer to the conditions usually suitable for this crop."
-)
-st.write(
-    "The SHAP chart above shows which features contributed more to the final prediction."
-)
+for key, val in defaults.items():
+    if key not in st.session_state:
+        st.session_state[key] = val
