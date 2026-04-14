@@ -51,3 +51,6 @@ def get_confidence_level(confidence):
         # add user agent header
 headers = {"User-Agent": "crop-predictor-app"}
 response = requests.get(url, params=params, headers=headers)
+# check response content
+if not data:
+    print("Empty API response received")
