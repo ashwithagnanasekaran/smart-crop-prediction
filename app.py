@@ -253,6 +253,56 @@ st.markdown("""
         display: inline-block;
     }
     
+    .benefit-medium { 
+        background: linear-gradient(135deg, #f5c542 0%, #e9a23b 100%);
+        color: #1a4d2e !important; 
+        font-weight: 600;
+        padding: 5px 14px;
+        border-radius: 20px;
+        font-size: 13px;
+        display: inline-block;
+    }
+    
+    .benefit-low { 
+        background: linear-gradient(135deg, #a0aec0 0%, #718096 100%);
+        color: white !important; 
+        font-weight: 600;
+        padding: 5px 14px;
+        border-radius: 20px;
+        font-size: 13px;
+        display: inline-block;
+    }
+    
+    /* ========== SOIL INSIGHT CARD ========== */
+    .soil-insight {
+        background: linear-gradient(135deg, #f5ede0 0%, #ebe0cf 100%);
+        border-left: 8px solid #8b5a2b;
+        padding: 24px;
+        border-radius: 20px;
+        margin: 24px 0;
+        box-shadow: 0 8px 20px rgba(139,90,43,0.08);
+    }
+    
+    /* Make soil-insight text black */
+    .soil-insight, .soil-insight * {
+        color: #000000 !important;
+    }
+    
+    .soil-insight strong {
+        color: #6b3f1c !important;
+    }
+    
+    /* ========== CROP CARDS ========== */
+    .crop-card {
+        margin: 15px 0;
+        padding: 18px;
+        background: linear-gradient(135deg, #ffffff 0%, #f5faf0 100%);
+        border-radius: 16px;
+        border-left: 6px solid #52b788;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        transition: all 0.25s ease;
+    }
+    
     def get_weather_data(city):
     api_key = "74eb35dc87ea251ffb73b2ce2becbae0"
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
