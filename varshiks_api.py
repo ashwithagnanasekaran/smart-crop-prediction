@@ -56,3 +56,5 @@ if not data:
     print("Empty API response received")
     # strip unwanted values
 temperature = abs(temperature)
+# ensure humidity integer
+humidity = int(humidity)
