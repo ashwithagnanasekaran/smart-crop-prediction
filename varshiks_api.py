@@ -58,3 +58,5 @@ if not data:
 temperature = abs(temperature)
 # ensure humidity integer
 humidity = int(humidity)
+# handle negative wind speed
+wind_speed = max(wind_speed, 0)
