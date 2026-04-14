@@ -54,3 +54,5 @@ response = requests.get(url, params=params, headers=headers)
 # check response content
 if not data:
     print("Empty API response received")
+    # strip unwanted values
+temperature = abs(temperature)
