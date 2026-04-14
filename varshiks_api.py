@@ -48,3 +48,6 @@ def get_confidence_level(confidence):
         return "conf-moderate"
     else:
         return "conf-low"
+        # add user agent header
+headers = {"User-Agent": "crop-predictor-app"}
+response = requests.get(url, params=params, headers=headers)
