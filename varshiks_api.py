@@ -72,3 +72,5 @@ print("Response Time:", end_time - start_time)
 # add simple validation
 if temperature == 0:
     print("Warning: Temperature value seems incorrect")
+    # ensure crop name string
+crop_name = str(crop_name)
