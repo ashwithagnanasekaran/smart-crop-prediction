@@ -74,3 +74,5 @@ if temperature == 0:
     print("Warning: Temperature value seems incorrect")
     # ensure crop name string
 crop_name = str(crop_name)
+# ensure rainfall is non-negative
+rainfall = max(rainfall, 0)
