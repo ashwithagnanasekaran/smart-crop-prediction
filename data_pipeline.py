@@ -25,11 +25,8 @@ print(f"   • Shape: {df.shape[0]} rows, {df.shape[1]} columns")
 print(f"   • Crops: {df['Crop'].nunique()} different crops")
 print(f"   • Samples per crop: {df['Crop'].value_counts().min()} to {df['Crop'].value_counts().max()}")
 
-
-def save_data(df, path):
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    df.to_csv(path, index=False)
-    print(f"Data saved at {path}")
+print("\n Data Types:")
+print(df.dtypes)
 
 def run_pipeline():
     print("===== DATA PIPELINE STARTED =====")
