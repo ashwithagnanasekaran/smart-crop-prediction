@@ -302,6 +302,305 @@ st.markdown("""
         box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         transition: all 0.25s ease;
     }
+
+    .crop-card:hover {
+        transform: translateX(6px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        border-left-color: #f5c542;
+    }
+    
+    .crop-card * {
+        color: #1a4d2e !important;
+    }
+    
+    /* ========== FAMILY BADGE ========== */
+    .family-badge {
+        background: linear-gradient(135deg, #2d6a4f 0%, #52b788 100%);
+        padding: 5px 14px;
+        border-radius: 25px;
+        font-size: 14px;
+        font-weight: 600;
+        color: white !important;
+        display: inline-block;
+    }
+    
+    /* ========== ROTATION CYCLE CARDS ========== */
+    .cycle-card-past {
+        background: linear-gradient(135deg, #cbd5e1 0%, #a0aec0 100%);
+        padding: 20px;
+        border-radius: 18px;
+        text-align: center;
+        border-bottom: 5px solid #718096;
+        transition: transform 0.2s;
+    }
+    
+    .cycle-card-past:hover {
+        transform: translateY(-5px);
+    }
+    
+    .cycle-card-current {
+        background: linear-gradient(135deg, #2d6a4f 0%, #40916c 100%);
+        padding: 20px;
+        border-radius: 18px;
+        text-align: center;
+        border-bottom: 5px solid #f5c542;
+        transition: transform 0.2s;
+    }
+    
+    .cycle-card-current:hover {
+        transform: translateY(-5px);
+    }
+    
+    .cycle-card-future {
+        background: linear-gradient(135deg, #52b788 0%, #74c69d 100%);
+        padding: 20px;
+        border-radius: 18px;
+        text-align: center;
+        border-bottom: 5px solid #2d6a4f;
+        transition: transform 0.2s;
+    }
+    
+    .cycle-card-future:hover {
+        transform: translateY(-5px);
+    }
+    
+    .cycle-crop-name {
+        font-size: 26px;
+        font-weight: 800;
+        margin: 14px 0;
+        color: white !important;
+    }
+    
+    .cycle-season-name {
+        font-size: 14px;
+        font-weight: 500;
+        opacity: 0.9;
+        color: white !important;
+    }
+    
+    .cycle-arrow-past, .cycle-arrow-current, .cycle-arrow-future {
+        font-size: 14px;
+        font-weight: 700;
+        color: white !important;
+    }
+    
+    /* ========== TIMELINE CARDS ========== */
+    .timeline-past {
+        background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+        padding: 18px;
+        border-radius: 14px;
+        text-align: center;
+        border-left: 6px solid #64748b;
+    }
+    
+    .timeline-future {
+        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        padding: 18px;
+        border-radius: 14px;
+        text-align: center;
+        border-left: 6px solid #059669;
+    }
+    
+    /* ========== INPUT FIELDS ========== */
+    [data-testid="stNumberInput"] input,
+    [data-testid="stTextInput"] input,
+    [data-testid="stSelectbox"] select {
+        background: #f5faf0 !important;
+        border: 2px solid #a8d08d !important;
+        border-radius: 12px !important;
+        padding: 10px !important;
+        color: #1a4d2e !important;
+    }
+    
+    [data-testid="stNumberInput"] input:focus,
+    [data-testid="stTextInput"] input:focus {
+        border-color: #52b788 !important;
+        box-shadow: 0 0 0 3px rgba(82,183,136,0.2) !important;
+    }
+    
+    /* ========== BUTTONS ========== */
+    .stButton button {
+        background: linear-gradient(135deg, #2d6a4f 0%, #52b788 100%) !important;
+        color: white !important;
+        font-weight: 700 !important;
+        border: none !important;
+        border-radius: 40px !important;
+        padding: 12px 28px !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .stButton button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(45,106,79,0.3);
+        background: linear-gradient(135deg, #40916c 0%, #74c69d 100%) !important;
+    }
+    
+    /* ========== CHECKBOX ========== */
+    [data-testid="stCheckbox"] label {
+        color: #1a4d2e !important;
+        font-weight: 500;
+    }
+    
+    /* ========== METRICS ========== */
+    [data-testid="stMetric"] {
+        background: rgba(255,255,245,0.7);
+        padding: 15px;
+        border-radius: 16px;
+        border-left: 4px solid #52b788;
+    }
+    
+    [data-testid="stMetric"] label {
+        color: #1a4d2e !important;
+    }
+    
+    [data-testid="stMetric"] .stMetric-value {
+        color: #2d6a4f !important;
+    }
+    
+    /* ========== EXPANDER ========== */
+    [data-testid="stExpander"] {
+        background: rgba(245,250,240,0.8);
+        border-radius: 14px;
+        border: 1px solid #c8e6c9;
+    }
+    
+    [data-testid="stExpander"] summary {
+        color: #1a4d2e !important;
+        font-weight: 600;
+    }
+    
+    /* ========== ALERTS / MESSAGES ========== */
+    .stAlert {
+        background: linear-gradient(135deg, #d5e8d4 0%, #c0dec0 100%) !important;
+        border-left: 6px solid #2d6a4f !important;
+        color: #1a4d2e !important;
+    }
+    
+    .stAlert-warning {
+        background: linear-gradient(135deg, #f5e6c8 0%, #ecd9a8 100%) !important;
+        border-left-color: #f5c542 !important;
+    }
+    
+    /* ========== INPUT SUMMARY ========== */
+    .input-summary {
+        background: linear-gradient(135deg, #f0f7e8 0%, #e6f0da 100%);
+        padding: 22px;
+        border-radius: 18px;
+        border: 1px solid #a8d08d;
+        margin-bottom: 20px;
+    }
+    
+    /* ========== MEDAL STYLING ========== */
+    .medal {
+        font-size: 28px;
+        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    }
+    
+    /* ========== CROP DETAIL ITEMS ========== */
+    .crop-detail-item {
+        background: rgba(82,183,136,0.1);
+        padding: 6px 12px;
+        border-radius: 20px;
+        text-align: center;
+        font-size: 13px;
+        backdrop-filter: blur(2px);
+    }
+    
+    /* ========== TAB STYLING ========== */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 8px;
+    }
+    
+    .stTabs [data-baseweb="tab"] {
+        background: rgba(245,250,240,0.7);
+        border-radius: 12px;
+        padding: 8px 20px;
+        color: #1a4d2e;
+    }
+    
+    .stTabs [aria-selected="true"] {
+        background: linear-gradient(135deg, #2d6a4f 0%, #52b788 100%);
+        color: white !important;
+    }
+    
+    /* ========== DATA FRAME ========== */
+    .stDataFrame {
+        background: rgba(255,255,245,0.8);
+        border-radius: 14px;
+        border: 1px solid #a8d08d;
+    }
+            
+    /* Make st.success text dark green */
+    .stAlert[data-baseweb="alert"] {
+        color: #1a4d2e !important;
+        font-weight: 600 !important;
+    }
+
+    .stAlert[data-baseweb="alert"] * {
+        color: #1a4d2e !important;
+    }
+
+    /* Specifically for success messages */
+    div[data-testid="stAlert"] {
+        background: linear-gradient(135deg, #d5e8d4 0%, #c0dec0 100%) !important;
+        border-left: 6px solid #2d6a4f !important;
+    }
+
+    div[data-testid="stAlert"] * {
+        color: #1a4d2e !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+# LOAD MODEL AND FILES
+@st.cache_resource
+def load_model():
+    return joblib.load('crop_model_xgb.joblib')
+
+@st.cache_resource
+def load_features():
+    return joblib.load('feature_names.joblib')
+
+@st.cache_resource
+def load_crops():
+    return joblib.load('crop_list.joblib')
+
+@st.cache_resource
+def load_encoder():
+    return joblib.load('label_encoder.joblib')
+
+try:
+    model = load_model()
+    feature_names = load_features()
+    all_crops = load_crops()
+    st.sidebar.success("✅ Model loaded successfully")
+except Exception as e:
+    st.sidebar.error(f"❌ Error loading model: {e}")
+    st.stop()
+
+# CROP KNOWLEDGE BASE
+crop_families = {
+    'Cereals': ['Rice', 'Maize', 'Wheat', 'Barley'],
+    'Legumes': ['ChickPea', 'Lentil', 'PigeonPeas', 'MothBeans', 'MungBean', 'Blackgram', 'KidneyBeans'],
+    'Fruits': ['Apple', 'Banana', 'Mango', 'Grapes', 'Orange', 'Papaya', 'Pomegranate'],
+    'Melons': ['Watermelon', 'Muskmelon'],
+    'Fiber': ['Cotton', 'Jute'],
+    'Others': ['Coconut', 'Coffee']
+}
+
+crop_seasons = {
+    # Kharif crops (Monsoon - June to October)
+    'Rice': 'Kharif',
+    'Maize': 'Kharif',
+    'Cotton': 'Kharif',
+    'PigeonPeas': 'Kharif',
+    'MothBeans': 'Kharif',
+    'Blackgram': 'Kharif',
+    'MungBean': 'Kharif',
+    'KidneyBeans': 'Kharif',
+    'Jute': 'Kharif',
+    'Coconut': 'Kharif',
+    
     
     def get_weather_data(city):
     api_key = "74eb35dc87ea251ffb73b2ce2becbae0"
