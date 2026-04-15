@@ -81,3 +81,12 @@ df_top = df[df['Crop'].isin(top_crops)]
 sns.boxplot(data=df_top, x='Crop', y='Nitrogen', ax=ax5)
 ax5.set_title('Nitrogen Distribution by Crop (Top 10)')
 ax5.tick_params(axis='x', rotation=45)
+
+# Temperature vs Humidity Scatter
+fig = plt.figure(figsize=(20, 16))
+ax6 = plt.subplot(3, 3, 6)
+scatter = ax6.scatter(df['Temperature'], df['Humidity'], 
+                      c=pd.factorize(df['Crop'])[0], alpha=0.6, cmap='tab20')
+ax6.set_title('Temperature vs Humidity')
+ax6.set_xlabel('Temperature (°C)')
+ax6.set_ylabel('Humidity (%)')
