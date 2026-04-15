@@ -60,6 +60,9 @@ temperature = abs(temperature)
 humidity = int(humidity)
 # handle negative wind speed
 wind_speed = max(wind_speed, 0)
+# add simple validation
+if temperature == 0:
+    print("Warning: Temperature value seems incorrect")
 # add API response time log
 import time
 start_time = time.time()
