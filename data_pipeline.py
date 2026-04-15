@@ -72,3 +72,12 @@ numeric_df = df.select_dtypes(include=[np.number])
 correlation = numeric_df.corr()
 sns.heatmap(correlation, annot=True, cmap='coolwarm', center=0, ax=ax4)
 ax4.set_title('Feature Correlation Heatmap')
+
+# Boxplot: N, P, K by Crop Type (Top 10 crops)
+fig = plt.figure(figsize=(20, 16))
+ax5 = plt.subplot(3, 3, 5)
+top_crops = df['Crop'].value_counts().head(10).index
+df_top = df[df['Crop'].isin(top_crops)]
+sns.boxplot(data=df_top, x='Crop', y='Nitrogen', ax=ax5)
+ax5.set_title('Nitrogen Distribution by Crop (Top 10)')
+ax5.tick_params(axis='x', rotation=45)
