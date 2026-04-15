@@ -53,3 +53,13 @@ ax2.set_title('Distribution of Crops')
 ax2.set_xlabel('Crop')
 ax2.set_ylabel('Count')
 ax2.tick_params(axis='x', rotation=45)
+
+# pH Distribution
+fig = plt.figure(figsize=(20, 16))
+ax3 = plt.subplot(3, 3, 3)
+df['pH_Value'].hist(bins=20, color='green', alpha=0.7, ax=ax3)
+ax3.axvline(df['pH_Value'].mean(), color='red', linestyle='--', label=f'Mean: {df["pH_Value"].mean():.2f}')
+ax3.set_title('pH Value Distribution')
+ax3.set_xlabel('pH')
+ax3.set_ylabel('Frequency')
+ax3.legend()
