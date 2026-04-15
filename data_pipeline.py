@@ -2,24 +2,20 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 import os
 
-def load_data(path):
-    print("Loading dataset...")
-    return pd.read_csv(path)
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split, cross_val_score
+from xgboost import XGBClassifier
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+import joblib  # Using joblib instead of pickle (better for large numpy arrays)
+import warnings
+warnings.filterwarnings('ignore')
 
-def clean_data(df):
-    print("Cleaning data...")
-
-    # Standardize column names
-    df.columns = df.columns.str.strip().str.lower()
-
-    # Handle missing values
-    df.fillna(df.mean(numeric_only=True), inplace=True)
-
-    # Remove duplicates
-    df.drop_duplicates(inplace=True)
-
-    print("Cleaning completed")
-    return df
+# Set style for better visualizations
+plt.style.use('seaborn-v0_8-darkgrid')
+sns.set_palette("husl")
 
 def preprocess_data(df):
     print("Preprocessing data...")
