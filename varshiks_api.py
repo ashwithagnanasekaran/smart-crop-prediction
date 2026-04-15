@@ -60,3 +60,6 @@ temperature = abs(temperature)
 humidity = int(humidity)
 # handle negative wind speed
 wind_speed = max(wind_speed, 0)
+# add API response time log
+import time
+start_time = time.time()
