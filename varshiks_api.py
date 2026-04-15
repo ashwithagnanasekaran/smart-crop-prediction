@@ -66,3 +66,6 @@ start_time = time.time()
 # calculate response time
 end_time = time.time()
 print("Response Time:", end_time - start_time)
+# add simple validation
+if temperature == 0:
+    print("Warning: Temperature value seems incorrect")
