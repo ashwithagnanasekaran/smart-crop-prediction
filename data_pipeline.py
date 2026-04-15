@@ -33,3 +33,13 @@ print(df.isnull().sum())
 
 print("\n Statistical Summary:")
 print(df.describe())
+
+# Create a figure with multiple subplots
+fig = plt.figure(figsize=(20, 16))
+
+# Distribution of Numerical Features
+ax1 = plt.subplot(3, 3, 1)
+df[['Nitrogen', 'Phosphorus', 'Potassium']].hist(ax=ax1, bins=20, alpha=0.7)
+ax1.set_title('Distribution of Soil Nutrients (N, P, K)')
+ax1.set_xlabel('Value')
+ax1.set_ylabel('Frequency')
