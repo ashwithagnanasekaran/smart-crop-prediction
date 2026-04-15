@@ -28,23 +28,8 @@ print(f"   • Samples per crop: {df['Crop'].value_counts().min()} to {df['Crop'
 print("\n Data Types:")
 print(df.dtypes)
 
-def run_pipeline():
-    print("===== DATA PIPELINE STARTED =====")
-
-    # Step 1: Load
-    df = load_data("data/raw/crop_recommendation.csv")
-
-    # Step 2: Clean
-    df_cleaned = clean_data(df)
-
-    # Step 3: Preprocess
-    df_processed = preprocess_data(df_cleaned)
-
-    # Step 4: Save
-    save_data(df_processed, "data/processed/crop_processed_pipeline.csv")
-
-    print("\nPipeline executed successfully 🚀")
-    print("Dataset ready for model training")
+print("\n Missing Values:")
+print(df.isnull().sum())
 
 # Run pipeline
 if __name__ == "__main__":
