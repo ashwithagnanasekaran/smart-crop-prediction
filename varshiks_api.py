@@ -76,3 +76,5 @@ if temperature == 0:
 crop_name = str(crop_name)
 # ensure rainfall is non-negative
 rainfall = max(rainfall, 0)
+# log final input before prediction
+print("Final Input:", features)
