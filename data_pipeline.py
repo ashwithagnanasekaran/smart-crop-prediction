@@ -31,9 +31,5 @@ print(df.dtypes)
 print("\n Missing Values:")
 print(df.isnull().sum())
 
-# Run pipeline
-if __name__ == "__main__":
-    run_pipeline()
-    print("✔ Data loaded successfully")
-    print("✔ Cleaning step completed")
-    print("✔ Preprocessing step completed")
+print("\n Statistical Summary:")
+print(df.describe())
