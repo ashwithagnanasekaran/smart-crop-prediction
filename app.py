@@ -601,6 +601,151 @@ crop_seasons = {
     'Jute': 'Kharif',
     'Coconut': 'Kharif',
     
+    # Rabi crops (Winter - October to March)
+    'ChickPea': 'Rabi',
+    'Lentil': 'Rabi',
+    'Wheat': 'Rabi',
+    'Apple': 'Rabi',
+    'Grapes': 'Rabi',
+    'Orange': 'Rabi',
+    'Pomegranate': 'Rabi',
+    'Coffee': 'Rabi',
+    
+    # Zaid crops (Summer - April to June)
+    'Watermelon': 'Zaid',
+    'Muskmelon': 'Zaid',
+    'Banana': 'Zaid',
+    'Mango': 'Zaid',
+    'Papaya': 'Zaid'
+}
+
+season_months = {
+    'Kharif': 'June to October (Monsoon)',
+    'Rabi': 'October to March (Winter)',
+    'Zaid': 'April to June (Summer)'
+}
+
+season_order = ['Kharif', 'Rabi', 'Zaid']
+
+# Rotation benefits matrix
+rotation_benefits = {
+    'Legume after Cereal': 30,
+    'Different family': 20,
+    'Same family': -20,
+    'Same crop': -50,
+    'Cereal after Legume': 25
+}
+
+# Nutrient impact (simplified for demo)
+nutrient_impact = {
+    'Rice': {'N': -40, 'P': -15, 'K': -20},
+    'Maize': {'N': -35, 'P': -20, 'K': -15},
+    'Wheat': {'N': -30, 'P': -15, 'K': -10},
+    'ChickPea': {'N': 30, 'P': -10, 'K': -15},
+    'Lentil': {'N': 25, 'P': -8, 'K': -12},
+    'Cotton': {'N': -45, 'P': -20, 'K': -25},
+    'Watermelon': {'N': -20, 'P': -15, 'K': -25}
+}
+
+# Crop detailed information for New Field display
+crop_details = {
+    # Legumes
+    'ChickPea': {'benefit': '🌱 Fixes nitrogen', 'water': '💧 Low water', 'soil': '🧪 Improves fertility', 'tip': 'Good after cereals'},
+    'Lentil': {'benefit': '🌱 Nitrogen fixing', 'water': '💧 Low water', 'soil': '🧪 Soil enhancer', 'tip': 'Quick maturing'},
+    'PigeonPeas': {'benefit': '🌱 Deep roots', 'water': '💧 Drought tolerant', 'soil': '🧪 Breaks hardpan', 'tip': 'Perennial crop'},
+    'MothBeans': {'benefit': '🌱 Drought hardy', 'water': '💧 Very low water', 'soil': '🧪 Grows in poor soil', 'tip': 'Dryland crop'},
+    'MungBean': {'benefit': '🌱 Quick green manure', 'water': '💧 Low water', 'soil': '🧪 Improves nitrogen', 'tip': 'Short duration'},
+    'Blackgram': {'benefit': '🌱 Soil cover', 'water': '💧 Moderate water', 'soil': '🧪 Prevents erosion', 'tip': 'Rich in protein'},
+    'KidneyBeans': {'benefit': '🌱 High value', 'water': '💧 Regular water', 'soil': '🧪 Needs fertile soil', 'tip': 'Market crop'},
+    
+    # Cereals
+    'Rice': {'benefit': '🌾 Staple food', 'water': '💧 High water', 'soil': '🧪 Needs puddled soil', 'tip': 'Main kharif crop'},
+    'Maize': {'benefit': '🌾 Multi-purpose', 'water': '💧 Moderate water', 'soil': '🧪 Well-drained soil', 'tip': 'Can be intercropped'},
+    'Wheat': {'benefit': '🌾 Staple food', 'water': '💧 Moderate water', 'soil': '🧪 Fertile loam', 'tip': 'Main rabi crop'},
+    
+    # Fruits
+    'Apple': {'benefit': '🍎 High value', 'water': '💧 Regular irrigation', 'soil': '🧪 Well-drained', 'tip': 'Needs cold winters'},
+    'Banana': {'benefit': '🍌 Year-round fruit', 'water': '💧 High water', 'soil': '🧪 Rich organic soil', 'tip': 'Perennial crop'},
+    'Mango': {'benefit': '🥭 King of fruits', 'water': '💧 Low water', 'soil': '🧪 Deep soil', 'tip': 'Long-term investment'},
+    'Grapes': {'benefit': '🍇 High profit', 'water': '💧 Regulated water', 'soil': '🧪 Well-drained', 'tip': 'Needs trellising'},
+    'Orange': {'benefit': '🍊 Citrus fruit', 'water': '💧 Regular water', 'soil': '🧪 Slightly acidic', 'tip': 'Vitamin C rich'},
+    'Papaya': {'benefit': '🍈 Fast growing', 'water': '💧 Moderate water', 'soil': '🧪 Well-drained', 'tip': 'Quick returns'},
+    'Pomegranate': {'benefit': '🍎 Drought hardy', 'water': '💧 Low water', 'soil': '🧪 Adaptable', 'tip': 'Health fruit'},
+    
+    # Melons
+    'Watermelon': {'benefit': '🍉 Summer fruit', 'water': '💧 Moderate water', 'soil': '💨 Sandy loam', 'tip': 'Needs space'},
+    'Muskmelon': {'benefit': '🍈 Aromatic fruit', 'water': '💧 Regular water', 'soil': '🧪 Well-drained', 'tip': 'Short duration'},
+    
+    # Fiber
+    'Cotton': {'benefit': '🧶 Cash crop', 'water': '💧 Moderate water', 'soil': '🧪 Black soil', 'tip': 'Needs warm weather'},
+    'Jute': {'benefit': '🧶 Golden fiber', 'water': '💧 High water', 'soil': '🧪 Alluvial soil', 'tip': 'Needs flooding'},
+    
+    # Others
+    'Coconut': {'benefit': '🥥 Multi-purpose', 'water': '💧 Low water', 'soil': '🧪 Coastal soil', 'tip': 'Long-term crop'},
+    'Coffee': {'benefit': '☕ Beverage crop', 'water': '💧 Regular water', 'soil': '🧪 Acidic soil', 'tip': 'Needs shade'}
+}
+
+# Default details for any missing crop
+default_details = {
+    'benefit': '🌱 Good rotation crop',
+    'water': '💧 Adaptable water needs',
+    'soil': '🧪 Standard soil',
+    'tip': 'Follow season guidelines'
+}
+
+# HELPER FUNCTIONS
+
+def get_season_from_temperature(temp):
+    """Detect season based on temperature"""
+    if temp > 30:
+        return 'Zaid'
+    elif 20 <= temp <= 30:
+        return 'Rabi'
+    else:
+        return 'Kharif'
+
+def get_season_from_month(month):
+    """Get season from month number"""
+    if month in [6, 7, 8, 9, 10]:
+        return 'Kharif'
+    elif month in [11, 12, 1, 2, 3]:
+        return 'Rabi'
+    else:  # April, May
+        return 'Zaid'
+
+def get_crop_family(crop):
+    """Get family of a crop"""
+    for family, crops in crop_families.items():
+        if crop in crops:
+            return family
+    return 'Unknown'
+
+def get_rotation_benefit(previous_crop, candidate_crop):
+    """Calculate rotation benefit score"""
+    if previous_crop == candidate_crop:
+        return rotation_benefits['Same crop']
+    
+    prev_family = get_crop_family(previous_crop)
+    cand_family = get_crop_family(candidate_crop)
+    
+    if prev_family == cand_family:
+        return rotation_benefits['Same family']
+    
+    # Legume after Cereal is excellent
+    if cand_family == 'Legumes' and prev_family == 'Cereals':
+        return rotation_benefits['Legume after Cereal']
+    
+    # Cereal after Legume is very good
+    if cand_family == 'Cereals' and prev_family == 'Legumes':
+        return rotation_benefits['Cereal after Legume']
+    
+    return rotation_benefits['Different family']
+
+def get_shap_values(model, input_data):
+    explainer = shap.TreeExplainer(model)
+    shap_values = explainer.shap_values(input_data)
+    return shap_values
+
     
     def get_weather_data(city):
     api_key = "74eb35dc87ea251ffb73b2ce2becbae0"
