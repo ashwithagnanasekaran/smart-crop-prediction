@@ -17,27 +17,14 @@ warnings.filterwarnings('ignore')
 plt.style.use('seaborn-v0_8-darkgrid')
 sns.set_palette("husl")
 
-def preprocess_data(df):
-    print("Preprocessing data...")
+print("\n LOADING DATASET...")
+df = pd.read_csv("Crop_Recommendation.csv")
 
-    # Split features & target
-    X = df.drop("label", axis=1)
-    y = df["label"]
+print(f"\n Dataset loaded successfully!")
+print(f"   • Shape: {df.shape[0]} rows, {df.shape[1]} columns")
+print(f"   • Crops: {df['Crop'].nunique()} different crops")
+print(f"   • Samples per crop: {df['Crop'].value_counts().min()} to {df['Crop'].value_counts().max()}")
 
-    # Encode target
-    le = LabelEncoder()
-    y_encoded = le.fit_transform(y)
-
-    # Scale features
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
-
-    # Convert to DataFrame
-    processed_df = pd.DataFrame(X_scaled, columns=X.columns)
-    processed_df["label"] = y_encoded
-
-    print("Preprocessing completed")
-    return processed_df
 
 def save_data(df, path):
     os.makedirs(os.path.dirname(path), exist_ok=True)
