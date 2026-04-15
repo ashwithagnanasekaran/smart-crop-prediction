@@ -9,22 +9,16 @@ import joblib  # Using joblib instead of pickle (better for large numpy arrays)
 import warnings
 warnings.filterwarnings('ignore')
 
-# Set style for better visualizations
-plt.style.use('seaborn-v0_8-darkgrid')
-sns.set_palette("husl")
+# DATA PREPARATION
+print("\n PREPARING DATA FOR MODELING...")
 
-# Load dataset
-def load_data():
-    data = pd.read_csv("data.csv")
-    return data
+# Separate features and target
+feature = df.drop(columns=['Crop'])
+target = df['Crop']
 
-# Preprocess data
-def preprocess(data):
-    le = LabelEncoder()
-    data["soil_type"] = le.fit_transform(data["soil_type"])
-    data["crop"] = le.fit_transform(data["crop"])
-    return data, le
-
+print(f"   • Features shape: {feature.shape}")
+print(f"   • Target shape: {target.shape}")
+print(f"   • Features: {list(feature.columns)}")
 
 # Train model
 def train_model():
