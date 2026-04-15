@@ -86,3 +86,45 @@ plt.tight_layout()
 plt.savefig('confusion_matrix.png', dpi=300, bbox_inches='tight')
 plt.show()
 print("✅ Confusion matrix saved as 'confusion_matrix.png'")
+# FEATURE IMPORTANCE
+print("\n FEATURE IMPORTANCE ANALYSIS...")
+
+feature_importance = pd.DataFrame({
+    'feature': feature.columns,
+    'importance': model.feature_importances_
+}).sort_values('importance', ascending=False)
+
+print("\nFeature Importance Ranking:")
+print("-"*40)
+for idx, row in feature_importance.iterrows():
+    print(f"   • {row['feature']}: {row['importance']*100:.2f}%")
+
+# Plot feature importance
+plt.figure(figsize=(10, 6))
+sns.barplot(data=feature_importance, x='importance', y='feature', palette='viridis')
+plt.title('Feature Importance for Crop Recommendation')
+plt.xlabel('Importance Score')
+plt.ylabel('Features')
+plt.tight_layout()
+plt.savefig('feature_importance.png', dpi=300, bbox_inches='tight')
+plt.show()
+print("✅ Feature importance plot saved as 'feature_importance.png'")
+# 9. SAVE MODEL WITH JOBLIB
+print("\n💾 SAVING MODEL WITH JOBLIB...")
+
+# Save model
+joblib.dump(model, 'crop_model_xgb.joblib')
+print("    Model saved as 'crop_model.joblib'")
+joblib.dump(le, 'label_encoder.joblib')
+print("    Label encoder saved as 'label_encoder.joblib'")
+
+# Save feature names (for reference)
+feature_names = list(feature.columns)
+joblib.dump(feature_names, 'feature_names.joblib')
+print("    Feature names saved as 'feature_names.joblib'")
+
+# Save crop list
+crop_list = list(le.classes_)
+joblib.dump(crop_list, 'crop_list.joblib')
+print("    Crop list saved as 'crop_list.joblib'")
+probs = model.predict_proba(feature_test)
