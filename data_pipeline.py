@@ -43,3 +43,13 @@ df[['Nitrogen', 'Phosphorus', 'Potassium']].hist(ax=ax1, bins=20, alpha=0.7)
 ax1.set_title('Distribution of Soil Nutrients (N, P, K)')
 ax1.set_xlabel('Value')
 ax1.set_ylabel('Frequency')
+
+# Crop Distribution
+fig = plt.figure(figsize=(20, 16))
+ax2 = plt.subplot(3, 3, 2)
+crop_counts = df['Crop'].value_counts()
+crop_counts.plot(kind='bar', ax=ax2, color='skyblue')
+ax2.set_title('Distribution of Crops')
+ax2.set_xlabel('Crop')
+ax2.set_ylabel('Count')
+ax2.tick_params(axis='x', rotation=45)
