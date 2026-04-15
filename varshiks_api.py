@@ -63,3 +63,6 @@ wind_speed = max(wind_speed, 0)
 # add API response time log
 import time
 start_time = time.time()
+# calculate response time
+end_time = time.time()
+print("Response Time:", end_time - start_time)
