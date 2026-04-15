@@ -1,9 +1,17 @@
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import accuracy_score, classification_report
-import joblib
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split, cross_val_score
+from xgboost import XGBClassifier
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+import joblib  # Using joblib instead of pickle (better for large numpy arrays)
+import warnings
+warnings.filterwarnings('ignore')
+
+# Set style for better visualizations
+plt.style.use('seaborn-v0_8-darkgrid')
+sns.set_palette("husl")
 
 # Load dataset
 def load_data():
@@ -16,6 +24,7 @@ def preprocess(data):
     data["soil_type"] = le.fit_transform(data["soil_type"])
     data["crop"] = le.fit_transform(data["crop"])
     return data, le
+
 
 # Train model
 def train_model():
