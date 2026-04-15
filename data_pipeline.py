@@ -90,3 +90,11 @@ scatter = ax6.scatter(df['Temperature'], df['Humidity'],
 ax6.set_title('Temperature vs Humidity')
 ax6.set_xlabel('Temperature (°C)')
 ax6.set_ylabel('Humidity (%)')
+
+# Rainfall Distribution
+fig = plt.figure(figsize=(20, 16))
+ax7 = plt.subplot(3, 3, 7)
+df['Rainfall'].hist(bins=30, color='blue', alpha=0.7, ax=ax7)
+ax7.set_title('Rainfall Distribution')
+ax7.set_xlabel('Rainfall (mm)')
+ax7.set_ylabel('Frequency')
