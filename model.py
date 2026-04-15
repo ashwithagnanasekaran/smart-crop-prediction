@@ -50,3 +50,24 @@ model = XGBClassifier(
 # Train the model
 model.fit(feature_train, target_train)
 print("    Model training complete!")
+# Cross-validation
+print("\n🔄 Performing 5-fold cross-validation...")
+cv_scores = cross_val_score(model, feature, target_encoded, cv=5)
+print(f"   • CV Accuracy: {cv_scores.mean()*100:.2f}% (+/- {cv_scores.std()*100:.2f}%)")
+# MODEL EVALUATION
+print("\n📊 EVALUATING MODEL PERFORMANCE...")
+
+# Predictions
+target_pred_encoded = model.predict(feature_test)
+target_pred = le.inverse_transform(target_pred_encoded)
+target_test_labels = le.inverse_transform(target_test)
+
+# Accuracy
+accuracy = accuracy_score(target_test_labels, target_pred)
+print(f"\n✅ Test Accuracy: {accuracy * 100:.2f}%")
+
+# Detailed classification report
+print("\n📋 Classification Report:")
+print("-"*60)
+report = classification_report(target_test_labels, target_pred)
+print(report)
