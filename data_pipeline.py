@@ -63,3 +63,12 @@ ax3.set_title('pH Value Distribution')
 ax3.set_xlabel('pH')
 ax3.set_ylabel('Frequency')
 ax3.legend()
+
+# Correlation Heatmap
+fig = plt.figure(figsize=(20, 16))
+ax4 = plt.subplot(3, 3, 4)
+fig = plt.figure(figsize=(20, 16))
+numeric_df = df.select_dtypes(include=[np.number])
+correlation = numeric_df.corr()
+sns.heatmap(correlation, annot=True, cmap='coolwarm', center=0, ax=ax4)
+ax4.set_title('Feature Correlation Heatmap')
