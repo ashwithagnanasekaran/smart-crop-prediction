@@ -668,8 +668,7 @@ crop_details = {
     'MungBean': {'benefit': '🌱 Quick green manure', 'water': '💧 Low water', 'soil': '🧪 Improves nitrogen', 'tip': 'Short duration'},
     'Blackgram': {'benefit': '🌱 Soil cover', 'water': '💧 Moderate water', 'soil': '🧪 Prevents erosion', 'tip': 'Rich in protein'},
     'KidneyBeans': {'benefit': '🌱 High value', 'water': '💧 Regular water', 'soil': '🧪 Needs fertile soil', 'tip': 'Market crop'},
-<<<<<<< HEAD
-    
+
     # Cereals
     'Rice': {'benefit': '🌾 Staple food', 'water': '💧 High water', 'soil': '🧪 Needs puddled soil', 'tip': 'Main kharif crop'},
     'Maize': {'benefit': '🌾 Multi-purpose', 'water': '💧 Moderate water', 'soil': '🧪 Well-drained soil', 'tip': 'Can be intercropped'},
@@ -1035,3 +1034,61 @@ if selected == "Home":
         st.image("https://cdn-icons-png.flaticon.com/512/2917/2917995.png", width=180)
     
     st.markdown("---")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+        # ========================================
+        # RECOMMENDATIONS SUMMARY
+        # ========================================
+        st.markdown('<div class="section-header">💡 SUMMARY RECOMMENDATIONS</div>', unsafe_allow_html=True)
+        
+        if r['has_previous']:
+            st.markdown("""
+            • 🌱 **Rotate crop families** - Don't plant same family twice
+            • 💧 **Consider water needs** - Match crops to season
+            • 🧪 **Soil testing** - Regular testing improves accuracy
+            • 📈 **Track yields** - Keep records for better recommendations
+            """)
+        else:
+            st.markdown("""
+            • 🌱 **Start with soil testing** - Know your baseline
+            • 💧 **Match crops to season** - Choose appropriate crops
+            • 📊 **Consider market demand** - Plant profitable crops
+            • 🔄 **Plan rotation ahead** - Think 2-3 seasons forward
+            """)
+
+# FOOTER
+st.markdown("---")
+st.markdown(
+    "<div style='text-align: center; color: #666;'>"
+    "🌾 Smart Crop Rotation System </div>",
+    unsafe_allow_html=True
+)
