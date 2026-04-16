@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -1687,5 +1686,3 @@ st.markdown(
     "🌾 Smart Crop Rotation System </div>",
     unsafe_allow_html=True
 )
-=======
->>>>>>> 721a60c (save my local changes before pulling)
