@@ -611,7 +611,6 @@ crop_seasons = {
     'Pomegranate': 'Rabi',
     'Coffee': 'Rabi',
     
-<<<<<<< HEAD
     # Rabi crops (Winter - October to March)
     'ChickPea': 'Rabi',
     'Lentil': 'Rabi',
@@ -622,8 +621,6 @@ crop_seasons = {
     'Pomegranate': 'Rabi',
     'Coffee': 'Rabi',
     
-=======
->>>>>>> main
     # Zaid crops (Summer - April to June)
     'Watermelon': 'Zaid',
     'Muskmelon': 'Zaid',
@@ -758,9 +755,6 @@ def get_shap_values(model, input_data):
     explainer = shap.TreeExplainer(model)
     shap_values = explainer.shap_values(input_data)
     return shap_values
-
-=======
->>>>>>> main
     
     # Cereals
     'Rice': {'benefit': '🌾 Staple food', 'water': '💧 High water', 'soil': '🧪 Needs puddled soil', 'tip': 'Main kharif crop'},
@@ -1036,3 +1030,61 @@ if selected == "Home":
         st.image("https://cdn-icons-png.flaticon.com/512/2917/2917995.png", width=180)
     
     st.markdown("---")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+        # ========================================
+        # RECOMMENDATIONS SUMMARY
+        # ========================================
+        st.markdown('<div class="section-header">💡 SUMMARY RECOMMENDATIONS</div>', unsafe_allow_html=True)
+        
+        if r['has_previous']:
+            st.markdown("""
+            • 🌱 **Rotate crop families** - Don't plant same family twice
+            • 💧 **Consider water needs** - Match crops to season
+            • 🧪 **Soil testing** - Regular testing improves accuracy
+            • 📈 **Track yields** - Keep records for better recommendations
+            """)
+        else:
+            st.markdown("""
+            • 🌱 **Start with soil testing** - Know your baseline
+            • 💧 **Match crops to season** - Choose appropriate crops
+            • 📊 **Consider market demand** - Plant profitable crops
+            • 🔄 **Plan rotation ahead** - Think 2-3 seasons forward
+            """)
+
+# FOOTER
+st.markdown("---")
+st.markdown(
+    "<div style='text-align: center; color: #666;'>"
+    "🌾 Smart Crop Rotation System </div>",
+    unsafe_allow_html=True
+)
