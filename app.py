@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -839,8 +840,13 @@ def get_rotation_benefit(previous_crop, candidate_crop):
     
     return rotation_benefits['Different family']
 
-    def get_weather_data(city):
-    api_key = "74eb35dc87ea251ffb73b2ce2becbae0"
+    def get_shap_values(model, input_data):
+    explainer = shap.TreeExplainer(model)
+    shap_values = explainer.shap_values(input_data)
+    return shap_values
+
+def get_weather_data(city):
+    api_key = "29c899545aa2ed371bcf7d9b16949128"
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
 
     try:
@@ -941,7 +947,7 @@ defaults = {
 for key, val in defaults.items():
     if key not in st.session_state:
         st.session_state[key] = val
-        
+
 def fill_random():
     """Fill with random values"""
     st.session_state.nitrogen = round(random.uniform(20, 120), 1)
@@ -991,6 +997,7 @@ with st.sidebar:
         - ❄️ Rabi: Oct-Mar
         - ☀️ Zaid: Apr-Jun
         """)
+
 # HOME PAGE
 if selected == "Home":
     st.title("🌾 Smart Crop Rotation Recommendation System")
@@ -1030,35 +1037,627 @@ if selected == "Home":
         st.image("https://cdn-icons-png.flaticon.com/512/2917/2917995.png", width=180)
     
     st.markdown("---")
+    
+    # Quick stats
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric("Model Accuracy", "99.32%", "↑ 0.5%")
+    with col2:
+        st.metric("Crops Supported", f"{len(all_crops)}", "22 total")
+    with col3:
+        st.metric("Seasons", "3", "Kharif, Rabi, Zaid")
+    with col4:
+        st.metric("Rotation Rules", "5 types", "Smart scoring")
 
+# CROP ASSESSMENT PAGE
+elif selected == "Crop Assessment":
+    st.title("🔍 Crop Rotation Assessment")
+    
+    col1, col2, col3 = st.columns([4, 1, 1])
 
+    with col2:
+        if st.button("🎲 Random"):
+            fill_random()
+            st.success("Random values generated!")
+            st.rerun()
 
+    with col3:
+        if st.button("🌐 Fetch Weather"):
+            if st.session_state.location.strip() == "":
+                st.warning("⚠️ Please enter a location first")
+            else:
+                temp, hum, rain = get_weather_data(st.session_state.location)
 
+                if temp is not None:
+                    st.session_state.temperature = round(temp, 1)
+                    st.session_state.humidity = round(hum, 1)
+                    st.session_state.rainfall = round(rain, 1)
+                    st.success(f"Weather updated for {st.session_state.location} ✅")
+                else:
+                    st.error("❌ Failed to fetch weather data. Check location name.")
+    
+    # Input Form
+    with st.container():
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.subheader("🌱 Soil Conditions")
+            st.session_state.nitrogen = st.number_input("Nitrogen (N)", 0.0, 200.0, st.session_state.nitrogen, help="20-120 is ideal range")
+            st.session_state.phosphorus = st.number_input("Phosphorus (P)", 0.0, 200.0, st.session_state.phosphorus, help="15-100 is ideal range")
+            st.session_state.potassium = st.number_input("Potassium (K)", 0.0, 250.0, st.session_state.potassium, help="15-150 is ideal range")
+            st.session_state.ph = st.number_input("pH Value", 3.0, 10.0, st.session_state.ph, help="5.5-8.0 is ideal range")
+        
+        with col2:
+            st.subheader("🌤️ Climate Conditions")
+            st.session_state.temperature = st.number_input("Temperature (°C)", 0.0, 50.0, st.session_state.temperature, help="15-35°C typical")
+            st.session_state.humidity = st.number_input("Humidity (%)", 0.0, 100.0, float(st.session_state.humidity), help="40-90% typical")
+            st.session_state.rainfall = st.number_input("Rainfall (mm)", 0.0, 400.0, float(st.session_state.rainfall), help="50-250mm typical")
+            st.session_state.location = st.text_input(
+                "Location/Region", 
+                st.session_state.location,
+                placeholder="Enter city name (e.g., Chennai, Coimbatore, Delhi)"
+            )                    
+        st.markdown('</div>', unsafe_allow_html=True)
+        
+        # Previous Crop Section
+        
+        col1, col2 = st.columns([1, 3])
+        with col1:
+            st.session_state.has_previous = st.checkbox("Had Previous Crop?", st.session_state.has_previous)
+        
+        with col2:
+            if st.session_state.has_previous:
+                # Detect current season
+                current_month = datetime.now().month
+                current_season = get_season_from_month(current_month)
+                
+                # Determine previous season (the one before current)
+                if current_season == 'Rabi':
+                    prev_season = 'Kharif'
+                elif current_season == 'Zaid':
+                    prev_season = 'Rabi'
+                else:  # Kharif
+                    prev_season = 'Zaid'
+                
+                # Get crops from previous season only
+                prev_season_crops = get_crops_by_season(prev_season)
+                
+                st.markdown(f"**Previous Season:** {prev_season} ({season_months[prev_season]})")
+                st.session_state.previous_crop = st.selectbox(
+                    "Select Previous Crop",
+                    options=prev_season_crops,
+                    index=prev_season_crops.index(st.session_state.previous_crop) if st.session_state.previous_crop in prev_season_crops else 0
+                )
+            else:
+                st.info("No previous crop selected. Will show recommendations for all seasons.")
+        
+        st.markdown('</div>', unsafe_allow_html=True)
+        
+        # Predict button
+        if st.button("Get Rotation Recommendations", type="primary", use_container_width=True):
+            # Prepare input data
+            input_data = [
+                st.session_state.nitrogen,
+                st.session_state.phosphorus,
+                st.session_state.potassium,
+                st.session_state.temperature,
+                st.session_state.humidity,
+                st.session_state.ph,
+                st.session_state.rainfall
+            ]
+            
+            # Get predictions
+            all_predictions = predict_crops(input_data)
+            
+            # Detect current season
+            current_season = get_season_from_temperature(st.session_state.temperature)
+            
+            # Store results
+            st.session_state.results = {
+                'predictions': all_predictions,
+                'nitrogen': st.session_state.nitrogen,
+                'phosphorus': st.session_state.phosphorus,
+                'potassium': st.session_state.potassium,
+                'ph': st.session_state.ph,
+                'temperature': st.session_state.temperature,
+                'humidity': st.session_state.humidity,
+                'rainfall': st.session_state.rainfall,
+                'location': st.session_state.location,
+                'has_previous': st.session_state.has_previous,
+                'previous_crop': st.session_state.previous_crop if st.session_state.has_previous else None,
+                'current_season': current_season
+            }
+            
+            st.session_state.pred_made = True
+            st.success("✅ Analysis complete! View results below.")
 
+# RESULTS PAGE
+elif selected == "Results":
+    st.title("📊 Crop Rotation Recommendations")
+    
+    if not st.session_state.pred_made:
+        st.warning("No recommendations available. Please complete the Crop Assessment first.")
+        if st.button("Go to Crop Assessment"):
+            st.session_state.selected = "Crop Assessment"
+            st.rerun()
+    else:
+        r = st.session_state.results
+        
+        # ========================================
+        # INPUT SUMMARY
+        # ========================================
+        st.markdown('<div class="section-header">📥 INPUT CONDITIONS</div>', unsafe_allow_html=True)
+        
+        col1, col2, col3= st.columns(3)
+        with col1:
+            st.markdown(f"**📍 Location:** {r['location']}")
+            st.markdown(f"**🧪 pH:** {r['ph']}")
+        with col2:
+            st.markdown(f"**🌡️ Temperature:** {r['temperature']}°C")
+            st.markdown(f"**💧 Humidity:** {r['humidity']}%")
+        with col3:
+            st.markdown(f"**🟤 N:** {r['nitrogen']} | **🔴 P:** {r['phosphorus']} | **🟡 K:** {r['potassium']}")
+            st.markdown(f"**🌧️ Rainfall:** {r['rainfall']} mm")
 
+        
+        # ========================================
+        # SCENARIO 1: NEW FIELD (No Previous Crop)
+        # ========================================
+        if not r['has_previous']:
+            st.markdown('<div class="section-header">🌱 NEW FIELD - RECOMMENDATIONS FOR ALL SEASONS</div>', unsafe_allow_html=True)
+            
+            # Get predictions
+            all_preds = r['predictions']
+            
+            # Group by season
+            season_crops = {'Kharif': [], 'Rabi': [], 'Zaid': []}
+            for crop, conf in all_preds:
+                season = crop_seasons.get(crop, 'Kharif')
+                season_crops[season].append((crop, conf))
+            
+            # Display each season
+            for season in season_order:
+                crops = season_crops[season][:3]  # Top 3
+                
+                # Determine card class
+                if season == 'Kharif':
+                    card_class = 'kharif-card'
+                    icon = '🌧️'
+                elif season == 'Rabi':
+                    card_class = 'rabi-card'
+                    icon = '❄️'
+                else:
+                    card_class = 'zaid-card'
+                    icon = '☀️'
+                
+                st.markdown(f"""
+                <div class="season-card {card_class}">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                        <span class="season-title">{icon} {season} ({season_months[season]})</span>
+                    </div>
+                """, unsafe_allow_html=True)
+                
+                if crops:
+                    for i, (crop, conf) in enumerate(crops):
+                        # Get crop details from dictionary or use defaults
+                        details = crop_details.get(crop, default_details)
+                        family = get_crop_family(crop)
+                        
+                        st.markdown(f"""
+                        <div class="crop-card">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <span style="font-size:22px; font-weight:600;">{i+1}. {crop}</span>
+                                <span class="family-badge">{family}</span>
+                            </div>
+                            <div style="margin-top:8px; display:grid; grid-template-columns:repeat(3,1fr); gap:5px; font-size:18px;">
+                                <span>{details['benefit']}</span>
+                                <span>{details['water']}</span>
+                                <span>{details['soil']}</span>
+                            </div>
+                            <div style="margin-top:6px; font-size:18px; color:#555 !important; font-style:italic;">
+                                📌 {details['tip']} • Best in {season_months[season]}
+                            </div>
+                        </div>
+                        """, unsafe_allow_html=True)
+                else:
+                    st.markdown("<p>No crops data available for this season</p>", unsafe_allow_html=True)
+                
+                st.markdown('</div>', unsafe_allow_html=True)
+        
+        # ========================================
+        # SCENARIO 2: EXISTING FIELD (With Previous Crop)
+        # ========================================
+        else:
+            st.markdown('<div class="section-header">🔄 ROTATION RECOMMENDATIONS FOR REMAINING SEASONS</div>', unsafe_allow_html=True)
+            
+            previous_crop = r['previous_crop']
+            prev_season = crop_seasons.get(previous_crop, 'Unknown')
+            current_season = r['current_season']
+            
+            # Summary card
+            st.markdown(f"""
+            <div class="info-card">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; text-align: center;">
+                    <!-- Column 1: Previous Crop -->
+                    <div style="padding: 10px;">
+                        <div style="font-size: 14px; color: #64748b; margin-bottom: 5px;">🌾 PREVIOUS CROP</div>
+                        <div style="font-size: 20px; font-weight: 700; color: #1e293b;">{previous_crop}</div>
+                        <div style="font-size: 13px; color: #475569;">{prev_season} season</div>
+                    </div>
+                    <!-- Column 2: Current Season -->
+                    <div style="padding: 10px; border-left: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0;">
+                        <div style="font-size: 14px; color: #64748b; margin-bottom: 5px;">🌤️ CURRENT SEASON</div>
+                        <div style="font-size: 20px; font-weight: 700; color: #1e293b;">{current_season}</div>
+                        <div style="font-size: 13px; color: #475569;">auto-detected from {r['temperature']}°C</div>
+                    </div>
+                    <!-- Column 3: Rotation Goal -->
+                    <div style="padding: 10px;">
+                        <div style="font-size: 14px; color: #64748b; margin-bottom: 5px;">🎯 ROTATION GOAL</div>
+                        <div style="font-size: 16px; font-weight: 600; color: #1e293b; margin-top: 5px;">Optimal Soil Health</div>
+                        <div style="font-size: 13px; color: #475569;">crop sequence planning</div>
+                    </div>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Determine remaining seasons
+            all_seasons = season_order.copy()
+            if prev_season in all_seasons:
+                all_seasons.remove(prev_season)
+            
+            # Reorder to show current season first if it's in remaining
+            if current_season in all_seasons:
+                all_seasons.remove(current_season)
+                remaining_seasons = [current_season] + all_seasons
+            else:
+                remaining_seasons = all_seasons
+            
+            # Get all predictions
+            all_preds = dict(r['predictions'])
+            
+            # For each remaining season
+            for season in remaining_seasons:
+                # Get crops for this season
+                season_crops = get_crops_by_season(season)
+                
+                # Calculate rotation scores
+                crop_scores = []
+                for crop in season_crops:
+                    if crop in all_preds:
+                        base_conf = all_preds[crop]
+                        rot_benefit = get_rotation_benefit(previous_crop, crop)
+                        final_score = base_conf + rot_benefit
+                        crop_scores.append((crop, base_conf, rot_benefit, final_score))
+                
+                # Sort by final score
+                crop_scores.sort(key=lambda x: x[3], reverse=True)
+                top_crops = crop_scores[:3]
+                
+                # Season card
+                if season == 'Kharif':
+                    card_class = 'kharif-card'
+                    icon = '🌧️'
+                elif season == 'Rabi':
+                    card_class = 'rabi-card'
+                    icon = '❄️'
+                else:
+                    card_class = 'zaid-card'
+                    icon = '☀️'
+                
+                timing = "Next" if season == current_season else "Later"
+                st.markdown(f"""
+                <div class="season-card {card_class}">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                        <span class="season-title">{icon} {season} Season ({timing})</span>
+                        <span class="season-months">{season_months[season]}</span>
+                    </div>
+                """, unsafe_allow_html=True)
+                
+                # Top recommendations
+                for i, (crop, base_conf, rot_benefit, final_score) in enumerate(top_crops):
+                    # Determine benefit class
+                    if rot_benefit > 0:
+                        benefit_class = "benefit-high"
+                        benefit_text = f"+{rot_benefit}"
+                    elif rot_benefit < 0:
+                        benefit_class = "benefit-low"
+                        benefit_text = f"{rot_benefit}"
+                    else:
+                        benefit_class = "benefit-medium"
+                        benefit_text = f"{rot_benefit}"
+                    
+                    # Medal emoji - using numbers instead of emojis as in your code
+                    medals = ["🥇", "🥈", "🥉"]
+                    
+                    # Why text
+                    if rot_benefit == 50:
+                        why = "Same crop - not recommended!"
+                    elif rot_benefit == -20:
+                        why = f"Same family as {previous_crop}"
+                    elif rot_benefit == 30:
+                        why = f"Legume after {get_crop_family(previous_crop)} - excellent!"
+                    elif rot_benefit == 25:
+                        why = f"Cereal after Legume - very good"
+                    elif rot_benefit == 20:
+                        why = f"Different family than {previous_crop}"
+                    else:
+                        why = "Rotation benefit"
+                    
+                    # THIS NEEDS TO BE INSIDE THE LOOP
+                    st.markdown(f"""
+                    <div class="rotation-card">
+                        <!-- Crop name centered -->
+                        <div style="text-align: center; margin-bottom: 15px;">
+                            <span class="medal">{medals[i]}</span>
+                            <strong style="font-size: 30px; margin-left: 5px;">{crop}</strong>
+                        </div>
+                        <!-- Why on left, Final score on right -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 5px;">
+                            <div style="font-size: 15px; color: #4a5568; max-width: 60%;">
+                                📌 {why}
+                            </div>
+                            <div style="text-align: right;">
+                            <span class="{get_confidence_level(final_score)}">Final score: {final_score:.1f}%</span>             
+                            </div>
+                        </div>
+                    </div>
+                    """, unsafe_allow_html=True)
 
+                # Close the season card AFTER the loop
+                st.markdown('</div>', unsafe_allow_html=True)
+                            
+            # ========================================
+            # ROTATION CYCLE VISUALIZATION
+            # ========================================
+            st.markdown('<div class="section-header">🔄 CROP ROTATION CYCLE</div>', unsafe_allow_html=True)
 
+            # Get top recommendations for each remaining season
+            rotation_cycle = []
+            rotation_cycle.append(("Past", previous_crop, prev_season))
 
+            # Track if we're at current or future
+            is_first_future = True
+            for season in remaining_seasons:
+                season_crops = get_crops_by_season(season)
+                crop_scores = []
+                for crop in season_crops:
+                    if crop in all_preds:
+                        base_conf = all_preds[crop]
+                        rot_benefit = get_rotation_benefit(previous_crop, crop)
+                        final_score = base_conf + rot_benefit
+                        crop_scores.append((crop, final_score))
+                crop_scores.sort(key=lambda x: x[1], reverse=True)
+                if crop_scores:
+                    rotation_cycle.append((season, crop_scores[0][0], season))
 
+            # Display as timeline with 3 unique colors
+            cols = st.columns(len(rotation_cycle))
 
+            for i, (col, (time_period, crop, season)) in enumerate(zip(cols, rotation_cycle)):
+                with col:
+                    if time_period == "Past":
+                        # PAST CARD - Grey
+                        arrow_text = "⬅️ PAST"
+                        arrow_class = "cycle-arrow-past"
+                        card_class = "cycle-card-past"
+                    elif i == 1:  # First future = Current season
+                        # CURRENT CARD - Blue
+                        arrow_text = f"➡️ CURRENT ({time_period})"
+                        arrow_class = "cycle-arrow-current"
+                        card_class = "cycle-card-current"
+                    else:  # Later future
+                        # FUTURE CARD - Green
+                        arrow_text = f"⬇️ FUTURE ({time_period})"
+                        arrow_class = "cycle-arrow-future"
+                        card_class = "cycle-card-future"
+                    
+                    st.markdown(f"""
+                    <div class="{card_class}">
+                        <div class="{arrow_class}">{arrow_text}</div>
+                        <div class="cycle-crop-name">{crop}</div>
+                        <div class="cycle-season-name">{season}</div>
+                    </div>
+                    """, unsafe_allow_html=True)
+            
+            # ========================================
+            # SOIL HEALTH INSIGHT
+            # ========================================
+            st.markdown('<div class="section-header">🌱 SOIL HEALTH INSIGHT</div>', unsafe_allow_html=True)
+            
+            # Get nutrient impact
+            prev_impact = nutrient_impact.get(previous_crop, {'N': -20, 'P': -10, 'K': -10})
+            
+            # Get top recommendation for current season
+            if remaining_seasons:
+                first_season = remaining_seasons[0]
+                season_crops = get_crops_by_season(first_season)
+                crop_scores = []
+                for crop in season_crops:
+                    if crop in all_preds:
+                        base_conf = all_preds[crop]
+                        rot_benefit = get_rotation_benefit(previous_crop, crop)
+                        final_score = base_conf + rot_benefit
+                        crop_scores.append((crop, final_score))
+                crop_scores.sort(key=lambda x: x[1], reverse=True)
+                
+                if crop_scores:
+                    next_crop = crop_scores[0][0]
+                    next_impact = nutrient_impact.get(next_crop, {'N': 0, 'P': 0, 'K': 0})
+                    
+                    # Calculate soil changes
+                    n_change = prev_impact.get('N', 0) + next_impact.get('N', 0)
+                    p_change = prev_impact.get('P', 0) + next_impact.get('P', 0)
+                    k_change = prev_impact.get('K', 0) + next_impact.get('K', 0)
+                    
+                    st.markdown(f"""
+                    <div class="soil-insight">
+                        <strong>📊 Soil Nutrient Journey:</strong><br><br>
+                        • After <strong>{previous_crop}</strong>: N {prev_impact['N']:+d}, P {prev_impact['P']:+d}, K {prev_impact['K']:+d}<br>
+                        • After <strong>{next_crop}</strong>: N {next_impact['N']:+d}, P {next_impact['P']:+d}, K {next_impact['K']:+d}<br>
+                        • <strong>Net change over rotation</strong>: N {n_change:+d}, P {p_change:+d}, K {k_change:+d}<br><br>
+                        <strong>💡 Recommendation:</strong> {"Planting " + next_crop + " after " + previous_crop + " will " + 
+                        ("improve soil nitrogen naturally" if next_impact.get('N',0) > 0 else "require nitrogen supplementation") + "."}
+                    </div>
+                    """, unsafe_allow_html=True)
+            
+            # ========================================
+            # CROPS TO AVOID
+            # ========================================
+            st.markdown('<div class="section-header">⛔ CROPS TO AVOID THIS SEASON</div>', unsafe_allow_html=True)
+            
+            # Get same family crops
+            prev_family = get_crop_family(previous_crop)
+            same_family_crops = crop_families.get(prev_family, [])
+            
+            # Filter to current season only
+            current_season_crops = get_crops_by_season(current_season)
+            avoid_crops = [c for c in same_family_crops if c in current_season_crops and c != previous_crop]
+            
+            if avoid_crops:
+                st.markdown(f"**Same family as {previous_crop} ({prev_family}):**")
+                cols = st.columns(3)
+                for i, crop in enumerate(avoid_crops[:6]):
+                    cols[i % 3].markdown(f"• ❌ {crop}")
+            else:
+                st.markdown(f"✅ No same-family crops found for {current_season} season - good for rotation!")
+            
+            if previous_crop in current_season_crops:
+                st.error(f"❌ **Never plant {previous_crop} again in {current_season}!** Wait at least one year.")
 
+        st.markdown('<div class="section-header">🧠 MODEL EXPLANATION (SHAP)</div>', unsafe_allow_html=True)
 
+        # =========================
+        # PREPARE INPUT
+        # =========================
+        input_data = pd.DataFrame([[ 
+            r['nitrogen'],
+            r['phosphorus'],
+            r['potassium'],
+            r['temperature'],
+            r['humidity'],
+            r['ph'],
+            r['rainfall']
+        ]], columns=feature_names)
 
+        try:
+            # =========================
+            # EXPLAINER
+            # =========================
+            explainer = shap.TreeExplainer(model)
+            shap_values = explainer(input_data)   # ✅ NEW API (IMPORTANT)
 
+            # Get predicted class index
+            pred_class = np.argmax(model.predict_proba(input_data)[0])
 
+            # =========================
+            # EXTRACT SINGLE EXPLANATION
+            # =========================
+            # shape: (features,)
+            shap_values_single = shap_values.values[0, :, pred_class]
+            expected_value = shap_values.base_values[0, pred_class]
 
+            # =========================
+            # 1 & 2 SIDE BY SIDE
+            # =========================
+            st.markdown("### 📊 Model Insights")
 
+            col1, col2 = st.columns(2)
 
+            # =========================
+            # LEFT: FEATURE IMPORTANCE
+            # =========================
+            with col1:
+                st.markdown("#### 📊 Feature Importance")
 
+                importance = np.abs(shap_values_single)
+                sorted_idx = np.argsort(importance)[::-1]
 
+                fig, ax = plt.subplots()
+                ax.barh(np.array(feature_names)[sorted_idx], importance[sorted_idx])
+                ax.invert_yaxis()
+                ax.set_title("Feature Importance")
 
+                st.pyplot(fig)
+                plt.close(fig)
 
+            # =========================
+            # RIGHT: WATERFALL
+            # =========================
+            with col2:
+                st.markdown("#### 📉 Prediction Breakdown")
 
+                explanation = shap.Explanation(
+                    values=shap_values_single,
+                    base_values=expected_value,
+                    data=input_data.iloc[0].values,
+                    feature_names=feature_names
+                )
 
+                fig2, ax2 = plt.subplots(figsize=(6, 4))  # smaller for column fit
+                shap.plots.waterfall(explanation, show=False)
 
+                st.pyplot(fig2)
+                plt.close(fig2)
 
+            # =========================
+            # 3. FORCE PLOT (FINAL FIX - HTML)
+            # =========================
+            import streamlit.components.v1 as components
 
+            st.markdown("### 🔍 Prediction Force Plot")
 
+            force_plot = shap.force_plot(
+                expected_value,
+                shap_values_single,
+                input_data.iloc[0]
+            )
+
+            html = f"""
+            <head>{shap.getjs()}</head>
+            <body>{force_plot.html()}</body>
+            """
+
+            components.html(html, height=220)
+
+            # =========================
+            # 4. HUMAN EXPLANATION
+            # =========================
+            st.markdown("### 🧠 Explanation in Words")
+
+            for i, feature in enumerate(feature_names):
+                val = input_data.iloc[0][feature]
+                impact = shap_values_single[i]
+
+                if impact > 0:
+                    st.write(f"🔺 {feature} = {val} increased prediction by {impact:.4f}")
+                else:
+                    st.write(f"🔻 {feature} = {val} decreased prediction by {abs(impact):.4f}")
+
+            # =========================
+            # 5. KEY INSIGHT
+            # =========================
+            st.markdown("### 📌 Key Insight")
+
+            top_idx = np.argmax(np.abs(shap_values_single))
+            top_feature = feature_names[top_idx]
+
+            st.markdown(f'<div style="color: #1a4d2e; font-weight: 600; background: #d5e8d4; padding: 10px; border-radius: 8px; border-left: 4px solid #2d6a4f;">✅ Most influential feature: <strong>{top_feature}</strong></div>', unsafe_allow_html=True)
+            top_crop = r['predictions'][0][0]
+
+            st.info(f"""
+            The model recommends **{top_crop}** mainly because:
+
+            • {top_feature} had the strongest influence  
+            • SHAP values show how each feature contributed  
+            • Positive values push prediction higher  
+            • Negative values reduce confidence  
+
+            👉 Fully explainable AI decision.
+            """)
+
+        except Exception as e:
+            st.error(f"SHAP error: {e}")
 
     
         # ========================================
@@ -1088,3 +1687,5 @@ st.markdown(
     "🌾 Smart Crop Rotation System </div>",
     unsafe_allow_html=True
 )
+=======
+>>>>>>> 721a60c (save my local changes before pulling)
