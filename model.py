@@ -1,178 +1,134 @@
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split, cross_val_score
+from xgboost import XGBClassifier
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+import joblib  # Using joblib instead of pickle (better for large numpy arrays)
+import warnings
+warnings.filterwarnings('ignore')
+
+# DATA PREPARATION
+print("\n PREPARING DATA FOR MODELING...")
+
+# Separate features and target
+feature = df.drop(columns=['Crop'])
+target = df['Crop']
+
+print(f"   • Features shape: {feature.shape}")
+print(f"   • Target shape: {target.shape}")
+print(f"   • Features: {list(feature.columns)}")
 from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import accuracy_score, classification_report
-import joblib
 
-# Load dataset
-def load_data():
-    data = pd.read_csv("data.csv")
-    return data
+le = LabelEncoder()
+target_encoded = le.fit_transform(target)
 
-# Preprocess data
-def preprocess(data):
-    le = LabelEncoder()
-    data["soil_type"] = le.fit_transform(data["soil_type"])
-    data["crop"] = le.fit_transform(data["crop"])
-    return data, le
+# TRAIN-TEST SPLIT
+print("\n SPLITTING DATA...")
+feature_train, feature_test, target_train, target_test = train_test_split(
+    feature, target_encoded, test_size=0.2, random_state=42, stratify=target_encoded
+)
 
-# Train model
-def train_model():
-    data = load_data()
-    data, le = preprocess(data)
+print(f"   • Training set: {feature_train.shape[0]} samples")
+print(f"   • Testing set: {feature_test.shape[0]} samples")
+print(f"   • Stratified split: Yes (preserves crop distribution)")
+# MODEL TRAINING
+print("\n TRAINING XGBOOST MODEL...")
 
-    X = data.drop("crop", axis=1)
-    y = data["crop"]
+model = XGBClassifier(
+    n_estimators=200,
+    max_depth=6,
+    learning_rate=0.1,
+    subsample=0.8,
+    colsample_bytree=0.8,
+    random_state=42,
+    use_label_encoder=False,
+    eval_metric='mlogloss'
+)
 
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, random_state=42
-    )
+# Train the model
+model.fit(feature_train, target_train)
+print("    Model training complete!")
+# Cross-validation
+print("\n🔄 Performing 5-fold cross-validation...")
+cv_scores = cross_val_score(model, feature, target_encoded, cv=5)
+print(f"   • CV Accuracy: {cv_scores.mean()*100:.2f}% (+/- {cv_scores.std()*100:.2f}%)")
+# MODEL EVALUATION
+print("\n📊 EVALUATING MODEL PERFORMANCE...")
 
-    model = RandomForestClassifier(n_estimators=100, random_state=42)
-    model.fit(X_train, y_train)
+# Predictions
+target_pred_encoded = model.predict(feature_test)
+target_pred = le.inverse_transform(target_pred_encoded)
+target_test_labels = le.inverse_transform(target_test)
 
-    # Evaluation
-    y_pred = model.predict(X_test)
-    print("Accuracy:", accuracy_score(y_test, y_pred))
-    print(classification_report(y_test, y_pred))
+# Accuracy
+accuracy = accuracy_score(target_test_labels, target_pred)
+print(f"\n✅ Test Accuracy: {accuracy * 100:.2f}%")
 
-    # Save model
-    joblib.dump(model, "model.pkl")
+# Detailed classification report
+print("\n📋 Classification Report:")
+print("-"*60)
+report = classification_report(target_test_labels, target_pred)
+print(report)
+# Confusion Matrix
+print("\n📊 Generating Confusion Matrix...")
+cm = confusion_matrix(target_test_labels, target_pred)
+plt.figure(figsize=(12, 10))
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', 
+            xticklabels=le.classes_, yticklabels=le.classes_)
+plt.title('Confusion Matrix')
+plt.xlabel('Predicted')
+plt.ylabel('Actual')
+plt.xticks(rotation=45)
+plt.yticks(rotation=45)
+plt.tight_layout()
+plt.savefig('confusion_matrix.png', dpi=300, bbox_inches='tight')
+plt.show()
+print("✅ Confusion matrix saved as 'confusion_matrix.png'")
+# FEATURE IMPORTANCE
+print("\n FEATURE IMPORTANCE ANALYSIS...")
 
-    return model, le
+feature_importance = pd.DataFrame({
+    'feature': feature.columns,
+    'importance': model.feature_importances_
+}).sort_values('importance', ascending=False)
 
-# Prediction
-def predict(temp, humidity, rainfall, soil):
-    model, le = train_model()
+print("\nFeature Importance Ranking:")
+print("-"*40)
+for idx, row in feature_importance.iterrows():
+    print(f"   • {row['feature']}: {row['importance']*100:.2f}%")
 
-    soil_map = {
-        "loamy": 0,
-        "sandy": 1,
-        "clay": 2
-    }
+# Plot feature importance
+plt.figure(figsize=(10, 6))
+sns.barplot(data=feature_importance, x='importance', y='feature', palette='viridis')
+plt.title('Feature Importance for Crop Recommendation')
+plt.xlabel('Importance Score')
+plt.ylabel('Features')
+plt.tight_layout()
+plt.savefig('feature_importance.png', dpi=300, bbox_inches='tight')
+plt.show()
+print("✅ Feature importance plot saved as 'feature_importance.png'")
+# 9. SAVE MODEL WITH JOBLIB
+print("\n💾 SAVING MODEL WITH JOBLIB...")
 
-    soil_value = soil_map[soil]
+# Save model
+joblib.dump(model, 'crop_model_xgb.joblib')
+print("    Model saved as 'crop_model.joblib'")
+joblib.dump(le, 'label_encoder.joblib')
+print("    Label encoder saved as 'label_encoder.joblib'")
 
-    input_data = [[temp, humidity, rainfall, soil_value]]
-    prediction = model.predict(input_data)
+# Save feature names (for reference)
+feature_names = list(feature.columns)
+joblib.dump(feature_names, 'feature_names.joblib')
+print("    Feature names saved as 'feature_names.joblib'")
 
-    # Convert back to label
-    return prediction[0]
-
-import os
-
-def train_model():
-    data = load_data()
-    data, le = preprocess(data)
-
-    X = data.drop("crop", axis=1)
-    y = data["crop"]
-
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, random_state=42
-    )
-
-    model = RandomForestClassifier(n_estimators=100, random_state=42)
-    model.fit(X_train, y_train)
-
-    # Save model
-    import joblib
-    joblib.dump(model, "model.pkl")
-
-    return model, le
-import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
-
-def train_model():
-    data = pd.read_csv("data.csv")
-
-    X = data.drop("label", axis=1)
-    y = data["label"]
-
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, random_state=42
-    )
-
-    model = RandomForestClassifier(n_estimators=100)
-    model.fit(X_train, y_train)
-
-    return model
-from sklearn.metrics import accuracy_score
-
-def evaluate_model(model, X_test, y_test):
-    predictions = model.predict(X_test)
-    acc = accuracy_score(y_test, predictions)
-    print("Accuracy:", acc)
-    return acc
-import joblib
-
-def save_model(model):
-    joblib.dump(model, "crop_model.pkl")
-    print("Model saved successfully")
-    
-    def predict(model, input_data):
-    prediction = model.predict([input_data])
-    return prediction[0]
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler
-
-def build_pipeline():
-    pipeline = Pipeline([
-        ("scaler", StandardScaler()),
-        ("model", RandomForestClassifier(n_estimators=100))
-    ])
-    return pipeline
-def train_model():
-    data = pd.read_csv("data.csv")
-
-    X = data.drop("Label", axis=1)
-    y = data["Label"]
-
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, random_state=42
-    )
-
-    pipeline = build_pipeline()
-    pipeline.fit(X_train, y_train)
-
-    return pipeline, X_test, y_test
-def load_model():
-    model = joblib.load("crop_model.pkl")
-    print("Model loaded successfully")
-    return model
-def predict_crop(model, input_data):
-    input_df = pd.DataFrame([input_data])
-    prediction = model.predict(input_df)
-    return prediction[0]
-from sklearn.model_selection import GridSearchCV
-
-def tune_model(X_train, y_train):
-    param_grid = {
-        "model__n_estimators": [50, 100],
-        "model__max_depth": [None, 10, 20],
-    }
-
-    pipeline = build_pipeline()
-
-    grid = GridSearchCV(pipeline, param_grid, cv=3, n_jobs=-1)
-    grid.fit(X_train, y_train)
-
-    print("Best Parameters:", grid.best_params_)
-    return grid.best_estimator_
-from sklearn.model_selection import GridSearchCV
-
-from sklearn.model_selection import cross_val_score
-
-def cross_validate_model(model, X, y):
-    scores = cross_val_score(model, X, y, cv=5)
-    print("Cross-validation scores:", scores)
-    print("Average score:", scores.mean())
-    return scores.mean()
-from sklearn.metrics import confusion_matrix
-
-def show_confusion_matrix(model, X_test, y_test):
-    preds = model.predict(X_test)
-    cm = confusion_matrix(y_test, preds)
-    print("Confusion Matrix:\n", cm)
+# Save crop list
+crop_list = list(le.classes_)
+joblib.dump(crop_list, 'crop_list.joblib')
+print("    Crop list saved as 'crop_list.joblib'")
+probs = model.predict_proba(feature_test)
+print("\n🔍 Sample Prediction:")
+sample = feature_test.iloc[0].values.reshape(1, -1)
+pred = model.predict(sample)
+print("Predicted Crop:", le.inverse_transform(pred)[0])

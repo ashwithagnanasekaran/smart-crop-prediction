@@ -48,3 +48,33 @@ def get_confidence_level(confidence):
         return "conf-moderate"
     else:
         return "conf-low"
+        # add user agent header
+headers = {"User-Agent": "crop-predictor-app"}
+response = requests.get(url, params=params, headers=headers)
+# check response content
+if not data:
+    print("Empty API response received")
+    # strip unwanted values
+temperature = abs(temperature)
+# ensure humidity integer
+humidity = int(humidity)
+# handle negative wind speed
+wind_speed = max(wind_speed, 0)
+# add simple validation
+if temperature == 0:
+    print("Warning: Temperature value seems incorrect")
+# add API response time log
+import time
+start_time = time.time()
+# calculate response time
+end_time = time.time()
+print("Response Time:", end_time - start_time)
+# add simple validation
+if temperature == 0:
+    print("Warning: Temperature value seems incorrect")
+    # ensure crop name string
+crop_name = str(crop_name)
+# ensure rainfall is non-negative
+rainfall = max(rainfall, 0)
+# log final input before prediction
+print("Final Input:", features)

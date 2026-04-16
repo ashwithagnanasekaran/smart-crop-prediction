@@ -610,7 +610,7 @@ crop_seasons = {
     'Orange': 'Rabi',
     'Pomegranate': 'Rabi',
     'Coffee': 'Rabi',
-
+    
     # Rabi crops (Winter - October to March)
     'ChickPea': 'Rabi',
     'Lentil': 'Rabi',
@@ -621,7 +621,6 @@ crop_seasons = {
     'Pomegranate': 'Rabi',
     'Coffee': 'Rabi',
     
-
     # Zaid crops (Summer - April to June)
     'Watermelon': 'Zaid',
     'Muskmelon': 'Zaid',
@@ -756,9 +755,6 @@ def get_shap_values(model, input_data):
     explainer = shap.TreeExplainer(model)
     shap_values = explainer.shap_values(input_data)
     return shap_values
-
-=======
->>>>>>> af0677d (add new features for crop rotation and season mapping)
     
     # Cereals
     'Rice': {'benefit': '🌾 Staple food', 'water': '💧 High water', 'soil': '🧪 Needs puddled soil', 'tip': 'Main kharif crop'},
