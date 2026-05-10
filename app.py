@@ -302,7 +302,7 @@ st.markdown("""
         box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         transition: all 0.25s ease;
     }
-
+    
     .crop-card:hover {
         transform: translateX(6px);
         box-shadow: 0 8px 20px rgba(0,0,0,0.1);
@@ -549,6 +549,16 @@ st.markdown("""
     div[data-testid="stAlert"] * {
         color: #1a4d2e !important;
     }
+
+    /* Hide + and - buttons in number_input */
+    [data-testid="stNumberInput"] button {
+        display: none !important;
+    }
+
+    /* Optional: remove extra space where buttons were */
+    [data-testid="stNumberInput"] div {
+        gap: 0px !important;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -600,16 +610,6 @@ crop_seasons = {
     'KidneyBeans': 'Kharif',
     'Jute': 'Kharif',
     'Coconut': 'Kharif',
-
-    # Rabi crops (Winter - October to March)
-    'ChickPea': 'Rabi',
-    'Lentil': 'Rabi',
-    'Wheat': 'Rabi',
-    'Apple': 'Rabi',
-    'Grapes': 'Rabi',
-    'Orange': 'Rabi',
-    'Pomegranate': 'Rabi',
-    'Coffee': 'Rabi',
     
     # Rabi crops (Winter - October to March)
     'ChickPea': 'Rabi',
@@ -667,7 +667,7 @@ crop_details = {
     'MungBean': {'benefit': '🌱 Quick green manure', 'water': '💧 Low water', 'soil': '🧪 Improves nitrogen', 'tip': 'Short duration'},
     'Blackgram': {'benefit': '🌱 Soil cover', 'water': '💧 Moderate water', 'soil': '🧪 Prevents erosion', 'tip': 'Rich in protein'},
     'KidneyBeans': {'benefit': '🌱 High value', 'water': '💧 Regular water', 'soil': '🧪 Needs fertile soil', 'tip': 'Market crop'},
-
+    
     # Cereals
     'Rice': {'benefit': '🌾 Staple food', 'water': '💧 High water', 'soil': '🧪 Needs puddled soil', 'tip': 'Main kharif crop'},
     'Maize': {'benefit': '🌾 Multi-purpose', 'water': '💧 Moderate water', 'soil': '🧪 Well-drained soil', 'tip': 'Can be intercropped'},
@@ -846,6 +846,9 @@ def get_rotation_benefit(previous_crop, candidate_crop):
 
 def get_weather_data(city):
     api_key = "29c899545aa2ed371bcf7d9b16949128"
+
+def get_weather_data(city):
+    api_key = "74eb35dc87ea251ffb73b2ce2becbae0"
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
 
     try:
@@ -1658,6 +1661,7 @@ elif selected == "Results":
         except Exception as e:
             st.error(f"SHAP error: {e}")
 
+        
     
         # ========================================
         # RECOMMENDATIONS SUMMARY
@@ -1685,4 +1689,5 @@ st.markdown(
     "<div style='text-align: center; color: #666;'>"
     "🌾 Smart Crop Rotation System </div>",
     unsafe_allow_html=True
+)
 )
